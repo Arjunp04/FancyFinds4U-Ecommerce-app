@@ -70,7 +70,6 @@ const PlaceOrder = () => {
       </div>
 
       {/*------- RIGHT SIDE OF THE PLLACE ORDERPAGE----------------  */}
-
       <div className="mt-8">
         <div className="mt-8 min-w-80 ">
           <CartTotal />
@@ -79,7 +78,7 @@ const PlaceOrder = () => {
         <div className="mt-12">
           <Title text1={"PAYMENT"} text2={"METHOD"} />
 
-          {/*------- PAYMENT METHOD SELECTION---------------  */}
+    {/*-------------- PAYMENT METHOD SELECTION---------------  */}
 
           <div className="flex flex-col lg:flex-row gap-3">
             <div
