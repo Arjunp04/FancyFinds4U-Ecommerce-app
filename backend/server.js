@@ -4,6 +4,8 @@ import cors from "cors";
 import connectToDB from "./config/connectDB.js";
 import connectCloudinary from "./config/cloudinary.js";
 import userRouter from "./routes/userRoute.js";
+import productRouter from "./routes/productRoute.js";
+
 
 // ------------------- app config ------------------ //
 
@@ -17,6 +19,7 @@ connectCloudinary();
 app.use(express.json());
 app.use(cors());
 app.use("/api/user", userRouter);
+app.use("/api/product", productRouter);
 
 //----------------  api endpoints --------------------//
 
