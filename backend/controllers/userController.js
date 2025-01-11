@@ -98,6 +98,43 @@ const registerUser = async (req, res) => {
   }
 };
 
-const adminLogin = async (req, res) => {};
+const adminLogin = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    if (
+      email === process.env.ADMIN_EMAIL &&
+      password === process.env.ADMIN_PASSWORD
+    ) {
+      // Create a base64-encoded token payload
+      const payload = Buffer.from(email + password).toString("base64");
+
+      // Sign the payload with the secret key
+      const adminToken = jwt.sign(
+        { data: payload }, // Wrap the payload in an object
+        process.env.JWT_SECRET,
+        {
+          expiresIn: "1h", // Token expires in 1 hour
+        }
+      );
+
+      res.status(200).json({
+        success: true,
+        message: "Admin logged in successfully",
+        adminToken,
+      });
+    } else {
+      res.status(403).json({
+        success: false,
+        message: "Invalid credentials",
+      });
+    }
+  } catch (error) {
+    console.error("Login error:", error.message);
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    });
+  }
+};
 
 export { loginUser, registerUser, adminLogin };
