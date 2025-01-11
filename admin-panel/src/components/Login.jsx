@@ -4,52 +4,51 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-
 const Login = ({ token, setToken }) => {
-    
-    const navigate = useNavigate();
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const onSubmitHandler = async (e) => {
     try {
       e.preventDefault();
-      const response = await axios.post(`${backendUrl}/api/user/admin`,{email,password});
-        console.log(response);
-        if (response?.data?.success) {
-             const adminToken = response?.data?.adminToken;
-             setToken(adminToken);
-             navigate("/add-item");
-             setEmail("");
-             setPassword("");
-        }
-        else {
-            toast.error(response.data.message, {
-              position: "top-center",
-              autoClose: 1500,
-              hideProgressBar: false,
-              closeOnClick: false,
-              pauseOnHover: false,
-              draggable: true,
-              progress: undefined,
-              theme: "light",
-              transition: Zoom,
-            });
-        }
-       
+      const response = await axios.post(`${backendUrl}/api/user/admin`, {
+        email,
+        password,
+      });
+      console.log(response);
+      if (response?.data?.success) {
+        const adminToken = response?.data?.adminToken;
+        setToken(adminToken);
+        navigate("/add-item");
+        setEmail("");
+        setPassword("");
+      } else {
+        toast.error(response.data.message, {
+          position: "top-center",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Zoom,
+        });
+      }
     } catch (error) {
-        console.log(error);
-            toast.error(response.data.message, {
-              position: "top-center",
-              autoClose: 1500,
-              hideProgressBar: false,
-              closeOnClick: false,
-              pauseOnHover: false,
-              draggable: true,
-              progress: undefined,
-              theme: "light",
-              transition: Zoom,
-            });
+      console.log(error);
+      toast.error(response.data.message, {
+        position: "top-center",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Zoom,
+      });
     }
   };
 
