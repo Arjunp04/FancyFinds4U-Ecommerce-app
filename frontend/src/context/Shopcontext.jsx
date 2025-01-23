@@ -13,6 +13,7 @@ const ShopContextProvider = (props) => {
   const [showSearch, setShowSearch] = useState(false); //display the search bar
   const [cartItems, setCartItems] = useState({});
   const [products, setProducts] = useState([]);
+  const [token, setToken] = useState("");
   const navigate = useNavigate();
 
   //----------------- add to cart functionality ---------------//
@@ -85,15 +86,15 @@ const ShopContextProvider = (props) => {
     return totalAmount;
   };
 
-
   const getProductsData = async () => {
     try {
-      const response = await axios.get(`${backendUrl}/api/product/list-all-products`);
+      const response = await axios.get(
+        `${backendUrl}/api/product/list-all-products`
+      );
       console.log(response);
       if (response?.data?.success) {
         setProducts(response.data.products);
-      }
-      else {
+      } else {
         toast.error(response.data.message, {
           position: "top-center",
           autoClose: 1500,
@@ -103,27 +104,32 @@ const ShopContextProvider = (props) => {
           draggable: true,
           progress: undefined,
           theme: "light",
-        })
+        });
       }
     } catch (error) {
       console.log(error);
-       toast.error(error.message, {
-         position: "top-center",
-         autoClose: 1500,
-         hideProgressBar: false,
-         closeOnClick: false,
-         pauseOnHover: false,
-         draggable: true,
-         progress: undefined,
-         theme: "light",
-       });
+      toast.error(error.message, {
+        position: "top-center",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
-  }
+  };
 
   useEffect(() => {
     getProductsData();
-  },[])
+  }, []);
 
+  useEffect(() => {
+    if (!token && localStorage.getItem("token")) {
+      setToken(localStorage.getItem("token"));
+    }
+  }, []);
 
   const value = {
     products,
@@ -141,6 +147,8 @@ const ShopContextProvider = (props) => {
     getCartAmount,
     navigate,
     backendUrl,
+    token,
+    setToken,
   };
 
   return (
