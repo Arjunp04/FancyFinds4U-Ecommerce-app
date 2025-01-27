@@ -48,6 +48,33 @@ const ShopContextProvider = (props) => {
       cartData[itemId][size] = 1;
     }
     setCartItems(cartData);
+
+    if (token) {
+      try {
+        const response = await axios.post(
+          `${backendUrl}/api/cart/add`,
+          { itemId, size },
+          {
+            headers: {
+              token: token,
+            },
+          }
+        );
+      } catch (error) {
+        console.log(error);
+        toast.error(error.message, {
+          position: "top-center",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Zoom,
+        });
+      }
+    }
   };
 
   //---------------- cart count items function --------------------//
@@ -69,6 +96,33 @@ const ShopContextProvider = (props) => {
     let cartDataCopy = structuredClone(cartItems);
     cartDataCopy[itemId][size] = quantity;
     setCartItems(cartDataCopy);
+    if (token) {
+      try {
+        const response = await axios.put(
+          `${backendUrl}/api/cart/update`,
+          { itemId, size, quantity },
+          {
+            headers: {
+              token: token,
+            },
+          }
+        );
+        // console.log(response);
+      } catch (error) {
+        console.log(error);
+        toast.error(error.message, {
+          position: "top-center",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Zoom,
+        });
+      }
+    }
   };
 
   const getCartAmount = () => {
@@ -91,7 +145,6 @@ const ShopContextProvider = (props) => {
       const response = await axios.get(
         `${backendUrl}/api/product/list-all-products`
       );
-      console.log(response);
       if (response?.data?.success) {
         setProducts(response.data.products);
       } else {
@@ -121,13 +174,46 @@ const ShopContextProvider = (props) => {
     }
   };
 
+  const getUserCart = async (token) => {
+    try {
+      const response = await axios.get(
+        `${backendUrl}/api/cart/user-cart`,
+
+        {
+          headers: {
+            token: token,
+          },
+        }
+      );
+      console.log(response);
+      if (response.data.success) {
+        setCartItems(response.data.cartData);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message, {
+        position: "top-center",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Zoom,
+      });
+    }
+  };
+
   useEffect(() => {
     getProductsData();
   }, []);
 
   useEffect(() => {
-    if (!token && localStorage.getItem("token")) {
-      setToken(localStorage.getItem("token"));
+    const storedToken = localStorage.getItem("token");
+    if (storedToken) {
+      setToken(storedToken);
+      getUserCart(storedToken);
     }
   }, []);
 

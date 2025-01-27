@@ -5,15 +5,21 @@ import { ShopContext } from "../context/Shopcontext.jsx";
 
 const Navbar = () => {
   const [visible, setVisible] = useState(false);
-  const { setShowSearch, getCartCount, navigate, token, setToken, setCartItems } = useContext(ShopContext);
-  
+  const {
+    setShowSearch,
+    getCartCount,
+    navigate,
+    token,
+    setToken,
+    setCartItems,
+  } = useContext(ShopContext);
+
   const Logout = () => {
-     navigate("/login");
+    navigate("/login");
     localStorage.removeItem("token");
     setToken("");
     setCartItems({});
-   
-  }
+  };
 
   return (
     <div className="flex justify-between items-center font-medium py-5">
@@ -60,7 +66,12 @@ const Navbar = () => {
             <div className="group-hover:block hidden absolute dropdown-menu right-0 pt-4">
               <div className="flex flex-col gap-2 w-36 py-3 px-5 bg-slate-100 text-gray-500 rounded">
                 <p className="cursor-pointer hover:text-black">My Profile</p>
-                <p className="cursor-pointer hover:text-black">Orders</p>
+                <p
+                  onClick={() => navigate("/orders")}
+                  className="cursor-pointer hover:text-black"
+                >
+                  Orders
+                </p>
                 <p onClick={Logout} className="cursor-pointer hover:text-black">
                   Logout
                 </p>
