@@ -114,7 +114,7 @@ const ListProducts = ({ token }) => {
           >
             <img className="w-12" src={item?.image[0]} alt="product images" />
             <p>{item?.name}</p>
-            <p>{item?.description}</p>
+            <p>{(item?.description).slice(0,100)}</p>
             <p>{item?.category}</p>
             <p>
               {currency} {item?.price}
