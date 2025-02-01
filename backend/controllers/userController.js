@@ -113,7 +113,7 @@ const adminLogin = async (req, res) => {
         { data: payload }, // Wrap the payload in an object
         process.env.JWT_SECRET,
         {
-          expiresIn: "1h", // Token expires in 1 hour
+          expiresIn: "12h", // Token expires in 1 hour
         }
       );
 
