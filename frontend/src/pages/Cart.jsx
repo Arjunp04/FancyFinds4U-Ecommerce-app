@@ -3,10 +3,18 @@ import { ShopContext } from "../context/Shopcontext";
 import Title from "../components/Title";
 import { assets } from "../assets/frontend_assets/assets";
 import CartTotal from "../components/CartTotal";
+import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
-  const { products, currency, cartItems, updateQuantity, navigate } =
-    useContext(ShopContext);
+  const {
+    products,
+    currency,
+    cartItems,
+    updateQuantity,
+    navigate,
+    loading,
+    setLoading,
+  } = useContext(ShopContext);
   const [cartData, setCartData] = useState([]);
 
   useEffect(() => {
@@ -27,8 +35,15 @@ const Cart = () => {
     }
   }, [cartItems, products]);
 
+  // Handle navigation change and set loading to false
+  const handleNavigation = (path) => {
+    setLoading(true); // Disable actions and show loading state
+    navigate(path);
+    setLoading(false); // Reset loading state once route changes
+  };
+
   return (
-    <div className="border-t pt-14">
+    <div className="border-t pt-14 relative">
       <div className="text-2xl mb-3">
         <Title text1={"YOUR"} text2={"CART"} />
       </div>
@@ -95,8 +110,11 @@ const Cart = () => {
           <CartTotal />
           <div className="w-full text-end">
             <button
-              onClick={() => navigate("/place-order")}
-              className="bg-black text-white px-8 py-3 text-sm my-8"
+              onClick={() => handleNavigation("/place-order")}
+              className={`bg-black text-white px-8 py-3 text-sm my-8 ${
+                loading ? "cursor-not-allowed opacity-50" : ""
+              }`}
+              disabled={loading}
             >
               PROCEED TO CHECKOUT
             </button>

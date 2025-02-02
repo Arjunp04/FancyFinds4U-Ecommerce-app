@@ -13,6 +13,7 @@ const ShopContextProvider = (props) => {
   const [showSearch, setShowSearch] = useState(false); //display the search bar
   const [cartItems, setCartItems] = useState({});
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [token, setToken] = useState("");
   const navigate = useNavigate();
 
@@ -235,6 +236,8 @@ const ShopContextProvider = (props) => {
     backendUrl,
     token,
     setToken,
+    loading,
+    setLoading,
   };
 
   return (
