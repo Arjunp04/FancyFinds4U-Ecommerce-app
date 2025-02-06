@@ -4,15 +4,17 @@ import LatestCollections from "../components/LatestCollections";
 import BestSellerProducts from "../components/BestSellerProducts";
 import PolicyFeatures from "../components/PolicyFeatures";
 import NewsLetterBox from "../components/NewsLetterBox";
+import Testimonials from "../components/Testimonials";
 
 const Home = () => {
   return (
-    <div>
+    <div className="px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]">
       <Hero />
       <LatestCollections />
       <BestSellerProducts />
       <PolicyFeatures />
-      <NewsLetterBox/>
+      {/* <NewsLetterBox /> */}
+      <Testimonials/>
     </div>
   );
 };

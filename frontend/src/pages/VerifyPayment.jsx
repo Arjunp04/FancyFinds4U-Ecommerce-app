@@ -48,7 +48,11 @@ const VerifyPayment = () => {
     verifyPayment();
   }, [token]);
 
-  return <div>Verifying Payment...</div>;
+  return (
+    <div className="px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]">
+      Verifying Payment...
+    </div>
+  );
 };
 
 export default VerifyPayment;

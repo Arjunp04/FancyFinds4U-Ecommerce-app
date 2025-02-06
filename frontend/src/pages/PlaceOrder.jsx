@@ -178,7 +178,7 @@ const PlaceOrder = () => {
     <div>
       <form
         onSubmit={onSubmitHandler}
-        className="flex flex-col sm:flex-row justify-between gap-4 pt-5 sm:pt-14 min-h-[80vh]"
+        className="flex flex-col sm:flex-row justify-between gap-4 pt-5 sm:pt-14 min-h-[80vh] px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]"
       >
         {/* Left Side - Delivery Information */}
         <div className="flex flex-col gap-4 w-full sm:max-w-[480px]">
@@ -192,7 +192,7 @@ const PlaceOrder = () => {
               value={formData.firstName}
               placeholder="First Name"
               onChange={handleChange}
-              className="border border-gray-300 rounded py-1.5 px-3.5 w-full"
+              className="border border-gray-300 rounded py-1.5 px-3.5 w-full focus:outline-none focus:border-blue-600"
               required
             />
             <input
@@ -201,8 +201,7 @@ const PlaceOrder = () => {
               value={formData.lastName}
               placeholder="Last Name"
               onChange={handleChange}
-              className="border border-gray-300 rounded py-1.5 px-3.5 w-full"
-              required
+              className="border border-gray-300 rounded py-1.5 px-3.5 w-full focus:outline-none focus:border-blue-600"
             />
           </div>
           <input
@@ -211,8 +210,7 @@ const PlaceOrder = () => {
             value={formData.email}
             placeholder="Your email address"
             onChange={handleChange}
-            className="border border-gray-300 rounded py-1.5 px-3.5 w-full"
-            required
+            className="border border-gray-300 rounded py-1.5 px-3.5 w-full focus:outline-none focus:border-blue-600"
           />
           <input
             type="text"
@@ -220,8 +218,7 @@ const PlaceOrder = () => {
             value={formData.street}
             placeholder="Street"
             onChange={handleChange}
-            className="border border-gray-300 rounded py-1.5 px-3.5 w-full"
-            required
+            className="border border-gray-300 rounded py-1.5 px-3.5 w-full focus:outline-none focus:border-blue-600"
           />
           <div className="flex gap-3">
             <input
@@ -230,8 +227,7 @@ const PlaceOrder = () => {
               value={formData.city}
               placeholder="City"
               onChange={handleChange}
-              className="border border-gray-300 rounded py-1.5 px-3.5 w-full"
-              required
+              className="border border-gray-300 rounded py-1.5 px-3.5 w-full focus:outline-none focus:border-blue-600"
             />
             <input
               type="text"
@@ -239,8 +235,7 @@ const PlaceOrder = () => {
               value={formData.state}
               placeholder="State"
               onChange={handleChange}
-              className="border border-gray-300 rounded py-1.5 px-3.5 w-full"
-              required
+              className="border border-gray-300 rounded py-1.5 px-3.5 w-full focus:outline-none focus:border-blue-600"
             />
           </div>
           <input
@@ -249,8 +244,7 @@ const PlaceOrder = () => {
             value={formData.phone}
             placeholder="Phone"
             onChange={handleChange}
-            className="border border-gray-300 rounded py-1.5 px-3.5 w-full"
-            required
+            className="border border-gray-300 rounded py-1.5 px-3.5 w-full focus:outline-none focus:border-blue-600"
           />
         </div>
 
@@ -263,7 +257,7 @@ const PlaceOrder = () => {
               <div
                 onClick={() => setMethod("stripe")}
                 className={`flex items-center gap-3 border border-gray-300 p-2 px-3 cursor-pointer ${
-                  method === "stripe" && "bg-gray-100"
+                  method === "stripe" && "bg-gray-100 border-gray-500"
                 }`}
               >
                 <p
@@ -276,7 +270,7 @@ const PlaceOrder = () => {
               <div
                 onClick={() => setMethod("razorpay")}
                 className={`flex items-center gap-3 border border-gray-300 p-2 px-3 cursor-pointer ${
-                  method === "razorpay" && "bg-gray-100"
+                  method === "razorpay" && "bg-gray-100 border-gray-400"
                 }`}
               >
                 <p
@@ -289,7 +283,7 @@ const PlaceOrder = () => {
               <div
                 onClick={() => setMethod("cod")}
                 className={`flex items-center gap-3 border border-gray-300 p-2 px-3 cursor-pointer ${
-                  method === "cod" && "bg-gray-100"
+                  method === "cod" && "bg-gray-100 border-gray-400"
                 }`}
               >
                 <p
@@ -297,7 +291,8 @@ const PlaceOrder = () => {
                     method === "cod" ? "bg-green-500" : ""
                   }`}
                 ></p>
-                <p className="text-gray-500 text-sm mx-4 font-medium">
+                <p className="text-gray-700
+                text-sm mx-4 font-medium">
                   CASH ON DELIVERY
                 </p>
               </div>
@@ -306,7 +301,7 @@ const PlaceOrder = () => {
             <div className="w-full text-end mt-8">
               <button
                 type="submit"
-                className="bg-black text-white px-16 py-3 text-sm disabled:opacity-50"
+                className=" text-white px-16 py-3 text-sm disabled:opacity-50 bg-green-700 hover:bg-green-800"
                 disabled={loading}
               >
                 PLACE YOUR ORDER

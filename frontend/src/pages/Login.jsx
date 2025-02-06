@@ -6,8 +6,7 @@ import { FaUser, FaEnvelope, FaLock } from "react-icons/fa";
 
 const Login = () => {
   const [currentState, setCurrentState] = useState("Login");
-  const { token, setToken, navigate, backendUrl, loading, setLoading } =
-    useContext(ShopContext);
+  const { token, setToken, navigate, backendUrl } = useContext(ShopContext);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -15,146 +14,101 @@ const Login = () => {
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
-    setIsButtonDisabled(true); // Disable button during API call
+    setIsButtonDisabled(true);
     try {
-      if (currentState === "Sign Up") {
-        const response = await axios.post(`${backendUrl}/api/user/register`, {
-          name,
-          email,
-          password,
-        });
-        if (response.data.success) {
-          setToken(response.data.token);
-          localStorage.setItem("token", response.data.token);
-        } else {
-          toast.error(response.data.message, {
-            position: "top-center",
-            autoClose: 1500,
-            hideProgressBar: false,
-            closeOnClick: false,
-            pauseOnHover: false,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
-        }
+      const endpoint = currentState === "Sign Up" ? "/register" : "/login";
+      const payload = currentState === "Sign Up" ? { name, email, password } : { email, password };
+      
+      const response = await axios.post(`${backendUrl}/api/user${endpoint}`, payload);
+      if (response.data.success) {
+        setToken(response.data.token);
+        localStorage.setItem("token", response.data.token);
+        navigate("/");
       } else {
-        const response = await axios.post(`${backendUrl}/api/user/login`, {
-          email,
-          password,
-        });
-        if (response.data.success) {
-          setToken(response.data.token);
-          localStorage.setItem("token", response.data.token);
-        } else {
-          toast.error(response.data.message, {
-            position: "top-center",
-            autoClose: 1500,
-            hideProgressBar: false,
-            closeOnClick: false,
-            pauseOnHover: false,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
-        }
+        toast.error(response.data.message);
       }
     } catch (error) {
-      console.log(error);
       toast.error(error.message);
     } finally {
-      setIsButtonDisabled(false); // Enable button after API call
+      setIsButtonDisabled(false);
     }
   };
 
   useEffect(() => {
-    if (token) {
-      navigate("/");
-    }
+    if (token) navigate("/");
   }, [token]);
 
   return (
-    <form
-      onSubmit={onSubmitHandler}
-      className="flex flex-col items-center w-[90%] sm:max-w-96 m-auto mt-14 gap-4 text-gray-800"
-    >
-      <div className="inline-flex items-center gap-2 mt-10">
-        <p className="prata-regular text-3xl">{currentState}</p>
-        <hr className="border-none h-[1.5px] w-8 bg-gray-800" />
-      </div>
-
-      {currentState === "Login" ? (
-        ""
-      ) : (
-        <div className="relative w-full mt-5">
-          <input
-            type="text"
-            className="w-full px-3 py-2 border border-gray-800 rounded-md focus:outline-none focus:ring-1 focus:border-blue-700 pl-10"
-            placeholder="Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
-          <FaUser className="absolute top-3 left-3 text-gray-500" />
+    <div className="flex items-center justify-center ">
+      <div className="bg-white rounded-xl p-10 mt-10 w-full max-w-lg">
+        <h2 className="text-3xl font-bold text-center text-gray-900 mb-10">
+          {currentState === "Login" ? "Welcome Back!" : "Create an Account"}
+        </h2>
+        <form onSubmit={onSubmitHandler} className="space-y-5">
+          {currentState === "Sign Up" && (
+            <div className="relative">
+              <FaUser className="absolute top-4 left-3 text-gray-500" />
+              <input
+                type="text"
+                placeholder="Full Name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-400 shadow-md"
+                required
+              />
+            </div>
+          )}
+          <div className="relative">
+            <FaEnvelope className="absolute top-4 left-3 text-gray-500" />
+            <input
+              type="email"
+              placeholder="Email Address"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-400 shadow-md"
+              required
+            />
+          </div>
+          <div className="relative">
+            <FaLock className="absolute top-4 left-3 text-gray-500" />
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-400 shadow-md"
+              required
+            />
+          </div>
+          <button
+            type="submit"
+            className={`w-full bg-blue-700 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold text-lg transition duration-300 ${
+              isButtonDisabled
+                ? "opacity-50 cursor-not-allowed"
+                : "hover:bg-blue-800"
+            }`}
+            disabled={isButtonDisabled}
+          >
+            {currentState === "Login" ? "Sign In" : "Sign Up"}
+          </button>
+        </form>
+        <div className="text-center mt-6">
+          <p className="text-gray-700">
+            {currentState === "Login"
+              ? "New here? "
+              : "Already have an account? "}
+            <span
+              className="text-blue-600 font-semibold cursor-pointer hover:underline"
+              onClick={() =>
+                setCurrentState(currentState === "Login" ? "Sign Up" : "Login")
+              }
+            >
+              {currentState === "Login" ? "Create Account" : "Login"}
+            </span>
+          </p>
         </div>
-      )}
-
-      <div className="relative w-full ">
-        <input
-          type="email"
-          className="w-full px-3 py-2 border border-gray-800 rounded-md focus:outline-none focus:ring-1 focus:border-blue-700 pl-10"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <FaEnvelope className="absolute top-3 left-3 text-gray-500" />
       </div>
-
-      <div className="relative w-full">
-        <input
-          type="password"
-          className="w-full px-3 py-2 border border-gray-800 rounded-md focus:outline-none focus:ring-1 focus:border-blue-700 pl-10"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <FaLock className="absolute top-3 left-3 text-gray-500" />
-      </div>
-
-      <div className="w-full flex justify-between text-sm mt-[-8px]">
-        <p className=" cursor-pointer text-gray-700 hover:text-gray-900 transition-all duration-200">
-          Forgot your password?
-        </p>
-        {currentState === "Login" ? (
-          <p
-            onClick={() => setCurrentState("Sign Up")}
-            className=" cursor-pointer text-gray-700 hover:text-gray-900 transition-all duration-200"
-          >
-            Create account
-          </p>
-        ) : (
-          <p
-            onClick={() => setCurrentState("Login")}
-            className=" cursor-pointer text-gray-700 hover:text-gray-900 transition-all duration-200"
-          >
-            Login here
-          </p>
-        )}
-      </div>
-
-      <button
-        className={`bg-blue-800 text-white py-2 px-8 font-light mt-4 rounded-md ${
-          isButtonDisabled
-            ? "bg-blue-700 cursor-not-allowed"
-            : "hover:bg-blue-700"
-        }`}
-        disabled={isButtonDisabled}
-      >
-        {currentState === "Login" ? "Sign In" : "Sign Up"}
-      </button>
-    </form>
+    </div>
   );
 };
 

@@ -27,7 +27,7 @@ const Product = () => {
   }, [productId]);
 
   return productData ? (
-    <div className="border-t-2 pt-10 transition-opacity ease-in duration-1000 opacity-100">
+    <div className="border-t-2 pt-10 transition-opacity ease-in duration-1000 opacity-100 px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]">
       {/*---------------- product data details ---------------- */}
       <div className="flex gap-12 sm:gap-12 flex-col sm:flex-row">
         {/* ----------------product images ---------------- */}
@@ -53,16 +53,15 @@ const Product = () => {
         <div className="flex-1 ">
           <h1 className="font-medium text-2xl mt-2">{productData.name}</h1>
 
-          <div className="flex items-center gap-1 mt-2">
+          <div className="flex items-center gap-1 mt-3">
             <img src={assets.star_icon} className="w-3 5" alt="" />
             <img src={assets.star_icon} className="w-3 5" alt="" />
             <img src={assets.star_icon} className="w-3 5" alt="" />
             <img src={assets.star_icon} className="w-3 5" alt="" />
             <img src={assets.star_icon} className="w-3 5" alt="" />
-            <p className="pl-12">(122)</p>
           </div>
-          <p className="mt-5 text-3xl font-medium">
-            {currency}
+          <p className="mt-4 text-3xl font-medium">
+            {currency}{" "}
             {productData.price}
           </p>
           <p className="mt-5 text-gray-500 md:w-4/5">
@@ -87,7 +86,7 @@ const Product = () => {
 
           <button
             onClick={() => addToCart(productData._id, size)}
-            className="bg-black text-white px-8 py-3 text-sm active:bg-gray-800"
+            className="bg-blue-800 text-white px-8 py-3 text-sm active:bg-gray-800 hover:bg-blue-700"
           >
             ADD TO CART
           </button>
