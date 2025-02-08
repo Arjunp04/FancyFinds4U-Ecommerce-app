@@ -7,6 +7,8 @@ import AddProduct from "./pages/addProduct";
 import ListProducts from "./pages/listProducts";
 import Orders from "./pages/Orders";
 import Login from "./components/Login";
+import Home from "./pages/Home";
+import UpdateProduct from "./pages/UpdateProduct";
 
 export const backendUrl = import.meta.env.VITE_BACKEND_URL;
 export const currency = "Rs";
@@ -21,7 +23,7 @@ const App = () => {
   }, [token]);
 
   return (
-    <div className="bg-gray-100 min-h-screen">
+    <div className="min-h-screen">
       <ToastContainer />
       {token === "" ? (
         <Login token={token} setToken={setToken} />
@@ -33,9 +35,14 @@ const App = () => {
             <Sidebar />
             <div className="w-[70%] mx-auto ml-[max(5vw,25px)] my-8 text-gray-600 text-base">
               <Routes>
+                <Route path="/" element={<Home token={token} />} />
                 <Route
                   path="/add-item"
                   element={<AddProduct token={token} />}
+                />
+                <Route
+                  path="/update-item/:id"
+                  element={<UpdateProduct token={token} />}
                 />
                 <Route
                   path="/list-items"

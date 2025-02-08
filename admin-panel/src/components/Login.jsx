@@ -3,6 +3,8 @@ import { backendUrl } from "../App";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { Zoom } from "react-toastify";
+import { assets } from "../assets/admin_assets/assets";
 
 const Login = ({ token, setToken }) => {
   const navigate = useNavigate();
@@ -10,21 +12,20 @@ const Login = ({ token, setToken }) => {
   const [password, setPassword] = useState("");
 
   const onSubmitHandler = async (e) => {
+    e.preventDefault();
     try {
-      e.preventDefault();
       const response = await axios.post(`${backendUrl}/api/user/admin`, {
         email,
         password,
       });
-      console.log(response);
+
       if (response?.data?.success) {
         const adminToken = response?.data?.adminToken;
         setToken(adminToken);
-        navigate("/add-item");
+        navigate("/");
         setEmail("");
         setPassword("");
-      } else {
-        toast.error(response.data.message, {
+        toast.success("Login successful!", {
           position: "top-center",
           autoClose: 1500,
           hideProgressBar: false,
@@ -35,17 +36,19 @@ const Login = ({ token, setToken }) => {
           theme: "light",
           transition: Zoom,
         });
+      } else {
+        toast.error(response.data.message || "Login failed!", {
+          position: "top-center",
+          autoClose: 1500,
+          theme: "light",
+          transition: Zoom,
+        });
       }
     } catch (error) {
-      console.log(error);
-      toast.error(response.data.message, {
+      console.error(error);
+      toast.error("Something went wrong. Try again!", {
         position: "top-center",
         autoClose: 1500,
-        hideProgressBar: false,
-        closeOnClick: false,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
         theme: "light",
         transition: Zoom,
       });
@@ -53,47 +56,61 @@ const Login = ({ token, setToken }) => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center w-full">
-      <div className="text-4xl font-bold tracking-wide text-gray-950 mt-20">
-        Fancyfinds4U Logo
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 px-4">
+      {/* Logo Section */}
+      <div className="w-60 mb-8">
+        <img src={assets.logo} alt="fancyfinds4u logo" />
       </div>
-      <div className="bg-white shadow-lg rounded-lg mt-24 px-8 py-6 max-w-md ">
-        <h1 className="text-2xl font-bold mb-4">Admin Panel</h1>
+
+      {/* Login Card */}
+      <div className="bg-white shadow-lg rounded-lg px-8 py-6 w-full max-w-md border border-gray-200">
+        <h1 className="text-2xl font-bold mb-6 text-gray-800 text-center">
+          Admin Login
+        </h1>
+
         <form onSubmit={onSubmitHandler}>
-          <div className="mb-3 min-w-72">
-            <p className="text-sm font-medium text-gray-700 mb-2">Email</p>
+          {/* Email Input */}
+          <div className="mb-4">
+            <label className="text-sm font-medium text-gray-700">Email</label>
             <input
-              className="rounded-md w-full px-3 py-2 border border-gray-300 outline-none"
-              type="text"
+              className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-1 focus:ring-blue-500 focus:border-blue-500 transition-all focus:outline-none"
+              type="email"
               placeholder="youremail@gmail.com"
               required
               value={email}
-              onChange={(e) => {
-                setEmail(e.target.value);
-              }}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
-          <div className="mb-3 min-w-72">
-            <p className="text-sm font-medium text-gray-700 mb-2"> Password</p>
+
+          {/* Password Input */}
+          <div className="mb-4">
+            <label className="text-sm font-medium text-gray-700">
+              Password
+            </label>
             <input
-              className="rounded-md w-full px-3 py-2 border border-gray-300 outline-none"
+              className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-1 focus:ring-blue-500 focus:border-blue-500 transition-all focus:outline-none"
               type="password"
-              placeholder=" Your password"
+              placeholder="Your password"
               required
               value={password}
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
+              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
+
+          {/* Login Button */}
           <button
-            className="mt-2 w-full py-2 px-4 rounded-md bg-black text-white"
+            className="w-full py-2 mt-4 text-white bg-blue-800 rounded-md hover:bg-blue-700 transition-all duration-300 font-semibold shadow-md"
             type="submit"
           >
             Login
           </button>
         </form>
       </div>
+
+      {/* Footer */}
+      <p className="mt-6 text-sm text-gray-600">
+        © {new Date().getFullYear()} Fancyfinds4U. All rights reserved.
+      </p>
     </div>
   );
 };

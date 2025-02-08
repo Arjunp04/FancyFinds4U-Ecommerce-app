@@ -1,33 +1,73 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { assets } from "../assets/admin_assets/assets";
+import {
+  FaTachometerAlt,
+  FaPlus,
+  FaList,
+  FaShoppingCart,
+} from "react-icons/fa";
 
 const Sidebar = () => {
   return (
-    <div className="w-[18%] min-h-screen border-r-2">
-      <div className="flex flex-col gap-4 pt-6 text-[15px] pl-[20%]">
+    <div className="w-[20%] min-h-screen bg-white shadow-md border-r border-gray-200 p-5">
+      {/* Navigation Menu */}
+      <nav className="flex flex-col gap-3">
         <NavLink
-          className="flex items-center gap-3 border boder-gray-300 border-r-0 px-3 py-2  rounded-l"
-          to="/add-item"
+          to="/"
+          className={({ isActive }) =>
+            `flex items-center gap-3 px-4 py-3 rounded-md transition duration-300 ${
+              isActive
+                ? "bg-blue-500 text-white shadow-md"
+                : "text-gray-700 hover:bg-gray-100 hover:text-blue-500"
+            }`
+          }
         >
-          <img className="size-5" src={assets.add_icon} alt="add icon" />
+          <FaTachometerAlt className="w-5 h-5 shrink-0" />
+          <p className="hidden md:block">Dashboard</p>
+        </NavLink>
+
+        <NavLink
+          to="/add-item"
+          className={({ isActive }) =>
+            `flex items-center gap-3 px-4 py-3 rounded-md transition duration-300 ${
+              isActive
+                ? "bg-blue-500 text-white shadow-md"
+                : "text-gray-700 hover:bg-gray-100 hover:text-blue-500"
+            }`
+          }
+        >
+          <FaPlus className="w-5 h-5 shrink-0" />
           <p className="hidden md:block">Add Items</p>
         </NavLink>
+
         <NavLink
-          className="flex items-center gap-3 border boder-gray-300 border-r-0 px-3 py-2  rounded-l"
           to="/list-items"
+          className={({ isActive }) =>
+            `flex items-center gap-3 px-4 py-3 rounded-md transition duration-300 ${
+              isActive
+                ? "bg-blue-500 text-white shadow-md"
+                : "text-gray-700 hover:bg-gray-100 hover:text-blue-500"
+            }`
+          }
         >
-          <img className="size-5" src={assets.order_icon} alt="add icon" />
+          <FaList className="w-5 h-5 shrink-0" />
           <p className="hidden md:block">List Items</p>
         </NavLink>
+
         <NavLink
-          className="flex items-center gap-3 border boder-gray-300 border-r-0 px-3 py-2  rounded-l"
           to="/orders"
+          className={({ isActive }) =>
+            `flex items-center gap-3 px-4 py-3 rounded-md transition duration-300 ${
+              isActive
+                ? "bg-blue-500 text-white shadow-md"
+                : "text-gray-700 hover:bg-gray-100 hover:text-blue-500"
+            }`
+          }
         >
-          <img className="size-5" src={assets.order_icon} alt="add icon" />
+          <FaShoppingCart className="w-5 h-5 shrink-0" />
           <p className="hidden md:block">Orders</p>
         </NavLink>
-      </div>
+      </nav>
     </div>
   );
 };

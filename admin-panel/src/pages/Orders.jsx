@@ -15,20 +15,38 @@ const Orders = ({ token }) => {
         `${backendUrl}/api/order/list`,
         {},
         {
-          headers: {
-            adminToken: token,
-          },
+          headers: { adminToken: token },
         }
       );
 
       if (response.data.success) {
         setOrders(response.data.orders);
       } else {
-        toast.error(response.data.message || "Failed to fetch orders.");
+        toast.error(response.data.message || "Failed to fetch orders.", {
+          position: "top-center",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Zoom,
+        });
       }
     } catch (error) {
       console.error(error);
-      toast.error("Failed to fetch all orders.");
+      toast.error("Failed to fetch all orders.", {
+        position: "top-center",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Zoom,
+      });
     }
   };
 
@@ -37,24 +55,42 @@ const Orders = ({ token }) => {
   }, [token]);
 
   const statusHandler = async (e, orderId) => {
-    const newStatus = e.target.value; // Get the selected status value
+    const newStatus = e.target.value;
 
     try {
       const response = await axios.post(
-        `${backendUrl}/api/order/update-status`, // API endpoint to update order status
+        `${backendUrl}/api/order/update-status`,
         { orderId, status: newStatus },
         {
-          headers: {
-            adminToken: token,
-          },
+          headers: { adminToken: token },
         }
       );
 
       if (response.data.success) {
         await fetchAllOrders();
-        toast.success("Order status updated successfully!");
+        toast.success("Order status updated successfully!", {
+          position: "top-center",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Zoom,
+        });
       } else {
-        toast.error(response.data.message || "Failed to update order status.");
+        toast.error(response.data.message || "Failed to update order status.", {
+          position: "top-center",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Zoom,
+        });
       }
     } catch (error) {
       console.error(error);
@@ -63,8 +99,8 @@ const Orders = ({ token }) => {
   };
 
   return (
-    <div className="w-full max-w-6xl">
-      <h2 className="text-2xl font-semibold mb-6 text-gray-800">
+    <div className="w-full max-w-6xl mx-auto">
+      <h2 className="text-2xl font-bold mb-6 text-gray-800">
         📦 Order Details
       </h2>
 
@@ -73,12 +109,11 @@ const Orders = ({ token }) => {
           {orders.map((order, index) => (
             <div
               key={index}
-              className=" bg-white shadow-md border border-gray-200 rounded-lg p-5 transition duration-300 hover:shadow-lg"
+              className="bg-white shadow-md border border-gray-200 rounded-lg p-5 transition duration-300 hover:shadow-lg hover:border-gray-300"
             >
-              {/* Responsive Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-[5fr_2.5fr_2.5fr] xl:grid-cols-[7fr_4fr_3.5fr_2fr_3.5fr] gap-4 items-start">
-                {/* Column 1 - Image & Order Info */}
-                <div className="flex flex-col md:flex-row items-start gap-3 ">
+              <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-[5fr_3fr_3fr_2fr_3fr] xl:grid-cols-[7fr_4fr_3.5fr_2fr_3.5fr] gap-4 items-start">
+                {/* Order Details */}
+                <div className="flex flex-col md:flex-row items-start gap-3">
                   <img
                     src={assets?.parcel_icon}
                     alt="icon"
@@ -86,51 +121,63 @@ const Orders = ({ token }) => {
                   />
                   <div className="w-full">
                     {order.items.map((item, idx) => (
-                      <p key={idx} className="text-sm space-y-0.5">
-                        {item.name} x {item.quantity} <span>{item.size}</span>
+                      <p key={idx} className="text-sm text-gray-700">
+                        <span className="font-semibold">{item.name}</span> x{" "}
+                        {item.quantity} ({item.size})
                       </p>
                     ))}
                   </div>
                 </div>
 
-                {/* Address and User Info */}
-                <div className="rounded-lg space-y-0.5 ">
+                {/* Customer Info */}
+                <div className="rounded-lg space-y-1">
                   <p className="font-semibold text-gray-800 flex items-center gap-1">
-                    <span className="text-sm">👤</span>
-                    {order.address.firstName} {order.address.lastName}
+                    👤 {order.address.firstName} {order.address.lastName}
                   </p>
                   <p className="text-gray-600 text-sm flex items-center gap-1">
                     📍 {order.address.street}, {order.address.city},{" "}
                     {order.address.state}, {order.address.country},{" "}
                     {order.address.zipCode}
                   </p>
-                  <p className="text-gray-600 text-sm mt-0.5 flex items-center gap-1">
+                  <p className="text-gray-600 text-sm flex items-center gap-1">
                     📞 {order.address.phone}
                   </p>
                 </div>
 
-                {/* Column 2 - Order Details */}
-                <div className="space-y-0.5 text-sm ">
-                  <p>🛍️ Items: {order.items.length}</p>
-                  <p>💳 Method: {order.paymentMethod}</p>
-                  <p>✅ Payment: {order.payment ? "Done" : "Pending"}</p>
-                  <p>📅 Date: {new Date(order.date).toLocaleDateString()}</p>
+                {/* Order Summary */}
+                <div className="space-y-1 text-sm">
+                  <p>
+                    🛍️ <span className="font-medium">Items:</span>{" "}
+                    {order.items.length}
+                  </p>
+                  <p>
+                    💳 <span className="font-medium">Method:</span>{" "}
+                    {order.paymentMethod}
+                  </p>
+                  <p>
+                    ✅ <span className="font-medium">Payment:</span>{" "}
+                    {order.payment ? "Done" : "Pending"}
+                  </p>
+                  <p>
+                    📅 <span className="font-medium">Date:</span>{" "}
+                    {new Date(order.date).toLocaleDateString()}
+                  </p>
                 </div>
 
-                {/* Column 3 - Amount */}
-                <div className="font-medium text-lg text-gray-700 ">
+                {/* Order Amount */}
+                <div className="font-medium text-lg text-gray-700">
                   {currency} {order.amount}
                 </div>
 
-                {/* Column 4 - Order Status */}
+                {/* Status Dropdown */}
                 <div className="-mt-1">
                   <label className="text-sm font-medium text-gray-700">
                     Status:
                   </label>
                   <select
                     value={order.status}
-                    onChange={(e) => statusHandler(e, order._id)} // Trigger the status handler on change
-                    className="w-full p-2 border rounded text-sm font-semibold"
+                    onChange={(e) => statusHandler(e, order._id)}
+                    className="w-full p-2 border rounded text-sm font-semibold bg-white hover:border-gray-400"
                   >
                     <option value="Order Placed">🛒 Order Placed</option>
                     <option value="Packing">📦 Packing</option>
