@@ -6,24 +6,26 @@ import { useNavigate } from "react-router-dom";
 import { assets } from "../assets/frontend_assets/assets";
 
 const Orders = () => {
-  const { backendUrl, token, currency } = useContext(ShopContext);
+  const { backendUrl, token, currency, loading, setLoading } =
+    useContext(ShopContext);
   const [orderData, setOrderData] = useState([]);
   const navigate = useNavigate();
 
   const fetchOrderData = async () => {
     try {
-      if (!token) {
-        return null;
-      }
+      if (!token) return;
+
+      setLoading(true); // Start loading before API call
       const response = await axios.get(`${backendUrl}/api/order/user-orders`, {
         headers: {
           token: token,
         },
       });
+
       if (response.data.success) {
         let allOrdersItems = [];
-        response.data.orders.map((order) => {
-          order.items.map((item) => {
+        response.data.orders.forEach((order) => {
+          order.items.forEach((item) => {
             item["status"] = order.status;
             item["payment"] = order.payment;
             item["paymentMethod"] = order.paymentMethod;
@@ -35,6 +37,8 @@ const Orders = () => {
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false); // Stop loading after API call
     }
   };
 
@@ -43,20 +47,25 @@ const Orders = () => {
   }, [token]);
 
   return (
-    <div className="border-t pt-16 px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]">
-      <div className="text-2xl">
+    <div className="border-t pt-10 px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw] min-h-80">
+      <div className="text-2xl mb-6">
         <Title text1={"MY"} text2={"ORDERS"} />
       </div>
 
-      {orderData.length === 0 ? (
+      {/* Loading State */}
+      {loading ? (
+        <div className="flex justify-center items-center my-10 text-gray-700">
+          <p className="text-lg">Loading orders...</p>
+        </div>
+      ) : orderData.length === 0 ? (
+        // No Orders Message
         <div className="flex flex-col items-center justify-center text-center my-10">
           <img
             src={assets.noorder}
             alt="No Orders"
             className="w-40 sm:w-60 mb-4"
           />
-          <p className="text-gray-700
-           mb-6">
+          <p className="text-gray-700 mb-6">
             Start shopping to place your first order.
           </p>
           <button
@@ -67,6 +76,7 @@ const Orders = () => {
           </button>
         </div>
       ) : (
+        // Orders List
         <div>
           {orderData.map((item, index) => (
             <div

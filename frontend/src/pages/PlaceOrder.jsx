@@ -109,10 +109,9 @@ const PlaceOrder = () => {
         amount: getCartAmount() + delivery_fee,
       };
 
-      let response;
       switch (method) {
         case "cod":
-          response = await axios.post(
+         const response = await axios.post(
             `${backendUrl}/api/order/place-order`,
             orderData,
             {
@@ -128,13 +127,14 @@ const PlaceOrder = () => {
           break;
 
         case "stripe":
-          responseStripe = await axios.post(
+        const responseStripe = await axios.post(
             `${backendUrl}/api/order/create-stripe-session`,
             orderData,
             {
               headers: { token: token },
             }
           );
+          console.log(responseStripe)
           if (responseStripe.data.success) {
             window.location.replace(responseStripe.data.session_url);
           } else {

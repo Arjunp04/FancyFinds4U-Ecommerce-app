@@ -90,7 +90,7 @@ const Login = () => {
 
           {/* Forgot Password Link */}
           {currentState === "Login" && (
-            <div className="text-right">
+            <div className="text-left">
               <Link
                 to="/forgot-password"
                 className="text-blue-600 hover:underline"

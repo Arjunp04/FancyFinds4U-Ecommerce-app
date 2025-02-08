@@ -16,6 +16,7 @@ import { ToastContainer, toast } from "react-toastify";
 import VerifyPayment from "./pages/verifyPayment";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
+import MyProfile from "./pages/MyProfile";
 
 const App = () => {
   return (
@@ -36,6 +37,7 @@ const App = () => {
         <Route path="/orders" element={<Orders />} />
         <Route path="/place-order" element={<PlaceOrder />} />
         <Route path="/verify" element={<VerifyPayment />} />
+        <Route path="/my-profile" element={<MyProfile />} />
       </Routes>
       <Footer />
     </div>

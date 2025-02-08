@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { assets } from "../assets/frontend_assets/assets.js";
 import { Link, NavLink } from "react-router-dom";
 import { ShopContext } from "../context/Shopcontext.jsx";
@@ -22,6 +22,7 @@ const Navbar = () => {
     setToken("");
     setCartItems({});
   };
+
 
   return (
     <div className="flex justify-between items-center font-medium py-3 shadow-gray-300 shadow-md px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]">
@@ -70,18 +71,18 @@ const Navbar = () => {
           />
 
           {token && (
-            <div className="group-hover:block hidden absolute right-0 pt-4">
-              <div className="flex flex-col gap-2 w-36 py-3 px-5 bg-slate-100 text-gray-800 rounded">
-                <p className="cursor-pointer hover:text-blue-800">My Profile</p>
+            <div className="group-hover:block hidden absolute dropdown-menu right-0 pt-4 z-20">
+              <div className="flex flex-col gap-2 w-36 py-3 bg-slate-100 text-gray-800 rounded">
+                <p onClick={()=> navigate("/my-profile")} className="cursor-pointer hover:text-blue-800 px-5">My Profile</p>
                 <p
                   onClick={() => navigate("/orders")}
-                  className="cursor-pointer hover:text-blue-800"
+                  className="cursor-pointer hover:text-blue-800 px-5"
                 >
                   Orders
                 </p>
                 <p
                   onClick={Logout}
-                  className="cursor-pointer hover:text-blue-800"
+                  className="cursor-pointer hover:text-blue-800 px-5"
                 >
                   Logout
                 </p>
@@ -105,7 +106,7 @@ const Navbar = () => {
 
       <div
         className={`absolute top-0 right-0 bottom-0 overflow-hidden bg-gray-100 transition-all ${
-          visible ? "w-3/4 duration-500 ease-in-out" : "w-0"
+          visible ? "w-3/4 duration-500 ease-in-out z-20" : "w-0"
         }`}
       >
         <div className="flex flex-col text-gray-700">
@@ -117,29 +118,42 @@ const Navbar = () => {
             <p>Back</p>
           </div>
 
-          {[
-            { path: "/", label: "HOME" },
-            { path: "/collection", label: "COLLECTION" },
-            { path: "/about", label: "ABOUT" },
-            { path: "/contact", label: "CONTACT" },
-          ].map(({ path, label }) => (
-            <div key={path} className="flex flex-col items-center gap-1">
-              <NavLink
-                onClick={() => setVisible(false)}
-                to={path}
-                className={`py-2 pl-6 border text-gray-900 font-medium hover:text-gray-800 ${
-                  location.pathname === path ? "text-blue-700" : ""
-                }`}
-              >
-                {label}
-              </NavLink>
-              <hr
-                className={`w-2 h-1 ${
-                  location.pathname === path ? "bg-blue-700" : "bg-transparent"
-                }`}
-              />
-            </div>
-          ))}
+          <NavLink
+            onClick={() => {
+              setVisible(false);
+            }}
+            to="/"
+            className="py-2 pl-6 border"
+          >
+            <p>HOME</p>
+          </NavLink>
+          <NavLink
+            onClick={() => {
+              setVisible(false);
+            }}
+            to="/collection"
+            className="py-2 pl-6 border"
+          >
+            <p>COLLECTION</p>
+          </NavLink>
+          <NavLink
+            onClick={() => {
+              setVisible(false);
+            }}
+            to="/about"
+            className="py-2 pl-6 border"
+          >
+            <p>ABOUT US</p>
+          </NavLink>
+          <NavLink
+            onClick={() => {
+              setVisible(false);
+            }}
+            to="/contact"
+            className="py-2 pl-6 border"
+          >
+            <p>CONTACT</p>
+          </NavLink>
         </div>
       </div>
     </div>
