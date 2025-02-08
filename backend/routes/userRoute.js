@@ -8,8 +8,10 @@ import {
   getUserProfile,
   updateEmail,
   deleteUserAccount,
+  adminDashboardStats,
 } from "../controllers/userController.js";
 import authUser from "../middleware/authUser.js";
+import adminAuth from "../middleware/adminAuth.js";
 
 const userRouter = express.Router();
 
@@ -21,6 +23,9 @@ userRouter.post("/reset-password", resetPasswordUser);
 userRouter.get("/profile", authUser, getUserProfile);
 userRouter.put("/update-email", authUser, updateEmail);
 userRouter.delete("/account", authUser, deleteUserAccount);
+
+// ---------------admin routes -----------------//
 userRouter.post("/admin", adminLogin);
+userRouter.get("/admin/stats", adminAuth, adminDashboardStats);
 
 export default userRouter;

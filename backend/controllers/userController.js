@@ -1,5 +1,6 @@
 import userModel from "../models/userModel.js";
 import orderModel from "../models/orderModel.js"
+import productModel from "../models/ProductModel.js";
 import validator from "validator";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
@@ -264,6 +265,27 @@ const deleteUserAccount = async (req, res) => {
   }
 };
 
+//  ---------------------admin dashbaord stats ---------------//
+
+const adminDashboardStats = async (req,res) => {
+   try {
+     const totalUsers = await userModel.countDocuments();
+     const totalOrders = await orderModel.countDocuments();
+     const totalProducts = await productModel.countDocuments();
+
+     res.status(200).json({
+       success: true,
+       message:"All admin statistics fetched successfully",
+       totalUsers,
+       totalOrders,
+       totalProducts,
+     });
+   } catch (error) {
+     console.error("Error fetching admin stats:", error);
+     res.status(500).json({ success: false, message: "Server error" });
+   }
+}
+
 
 export {
   loginUser,
@@ -274,4 +296,5 @@ export {
   getUserProfile,
   deleteUserAccount,
   updateEmail,
+  adminDashboardStats
 };
