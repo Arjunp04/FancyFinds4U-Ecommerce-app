@@ -3,11 +3,11 @@ import validator from "validator";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-const createToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET);
+const createToken = (userId) => {
+  return jwt.sign({ id: userId }, process.env.JWT_SECRET, { expiresIn: "1h" });
 };
 
-// ----------------- user login ---------------//
+// ----------------- user login -------------------//
 const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -98,6 +98,71 @@ const registerUser = async (req, res) => {
   }
 };
 
+// ----------------------- forgot password -------------------------//
+
+const forgotPasswordUser = async (req, res) => {
+  try {
+    const { email } = req.body; 
+    if (!email) return res.status(400).json({ message: "Email is required" });
+
+    const user = await userModel.findOne({ email });
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    // Generate Reset Token
+    const resetToken = createToken(user._id);
+    user.resetToken = resetToken;
+    user.resetTokenExpiry = Date.now() + 3600000; // 1 hour validity
+
+    await user.save();
+
+    // Ideally, send an email here (not implemented)
+    res.json({
+      success: true,
+      message: "Reset link sent to your email.",
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+
+//-------------------- reset password ----------------------//
+const resetPasswordUser = async (req, res) => {
+  try {
+    const { token, newPassword } = req.body;
+    if (!token || !newPassword)
+      return res.status(400).json({ message: "All fields are required" });
+
+    // Verify the token
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const user = await userModel.findById(decoded.id);
+
+    if (
+      !user ||
+      user.resetToken !== token ||
+      Date.now() > user.resetTokenExpiry
+    ) {
+      return res.status(400).json({ message: "Invalid or expired token" });
+    }
+
+    // Hash new password
+    const salt = await bcrypt.genSalt(10);
+    user.password = await bcrypt.hash(newPassword, salt);
+
+    // Clear reset token after successful password reset
+    user.resetToken = null;
+    user.resetTokenExpiry = null;
+    await user.save();
+
+    res.json({ success: true, message: "Password reset successful!" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+
+//---------------------- admin login ------------------------------//
+
 const adminLogin = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -137,4 +202,10 @@ const adminLogin = async (req, res) => {
   }
 };
 
-export { loginUser, registerUser, adminLogin };
+export {
+  loginUser,
+  registerUser,
+  adminLogin,
+  forgotPasswordUser,
+  resetPasswordUser,
+};

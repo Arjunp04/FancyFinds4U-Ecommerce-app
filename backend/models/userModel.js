@@ -19,6 +19,13 @@ const userSchema = new mongoose.Schema(
       type: Object,
       default: {},
     },
+    resetToken: {
+      type: String,
+      default:""
+    },
+    reserTokenExpiry: {
+      type: Date,
+    },
   },
   { minimize: false }
 );

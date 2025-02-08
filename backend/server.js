@@ -8,7 +8,6 @@ import productRouter from "./routes/productRoute.js";
 import cartRouter from "./routes/cartRoute.js";
 import orderRouter from "./routes/orderRoute.js";
 
-
 // ------------------- app config ------------------ //
 
 //CREATING INSTANCE OF EXPPRESS PACKAGE
@@ -16,14 +15,29 @@ const app = express();
 const port = process.env.PORT || 4000;
 connectToDB();
 connectCloudinary();
+const allowedOrigins = [
+  process.env.FRONTEND_URL,
+  process.env.ADMIN_FRONTEND_URL,
+];
 
 // ---------------------- middlewares --------------------//
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
+  })
+);
 app.use("/api/user", userRouter);
 app.use("/api/product", productRouter);
 app.use("/api/cart", cartRouter);
-app.use("/api/order",orderRouter)
+app.use("/api/order", orderRouter);
 
 //----------------  api endpoints --------------------//
 
