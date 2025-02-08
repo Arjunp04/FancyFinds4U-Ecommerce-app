@@ -18,7 +18,7 @@ const razorpayInstance = new Razorpay({
 const placeOrder = async (req, res) => {
   try {
     const { userId, amount, items, address } = req.body;
-    console.log(req.body);
+    // console.log(req.body);
 
     const orderData = {
       userId,

@@ -1,7 +1,9 @@
 import userModel from "../models/userModel.js";
+import orderModel from "../models/orderModel.js"
 import validator from "validator";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import mongoose from "mongoose";
 
 const createToken = (userId) => {
   return jwt.sign({ id: userId }, process.env.JWT_SECRET, { expiresIn: "1h" });
@@ -102,7 +104,7 @@ const registerUser = async (req, res) => {
 
 const forgotPasswordUser = async (req, res) => {
   try {
-    const { email } = req.body; 
+    const { email } = req.body;
     if (!email) return res.status(400).json({ message: "Email is required" });
 
     const user = await userModel.findOne({ email });
@@ -124,7 +126,6 @@ const forgotPasswordUser = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-
 
 //-------------------- reset password ----------------------//
 const resetPasswordUser = async (req, res) => {
@@ -159,7 +160,6 @@ const resetPasswordUser = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-
 
 //---------------------- admin login ------------------------------//
 
@@ -202,10 +202,76 @@ const adminLogin = async (req, res) => {
   }
 };
 
+const getUserProfile = async (req, res) => {
+  try {
+    const { userId } = req.body;
+    const user = await userModel.findById(userId);
+    if (!user) return res.status(404).json({ message: "User not found" });
+    res.json({
+      success: true,
+      message: "User Profile fetched successfully",
+      name: user.name,
+      email: user.email,
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+const updateEmail = async (req, res) => {
+  try {
+    const user = await userModel.findById(req.body.userId);
+    if (!user) return res.status(404).json({ message: "User not found" });
+    user.email = req.body.email;
+    await user.save();
+    res.json({ success: true, message: "Email updated successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+const deleteUserAccount = async (req, res) => {
+  const session = await mongoose.startSession();
+  session.startTransaction();
+
+  try {
+    const userId = req.body.userId;
+
+    if (!userId) {
+      return res.status(400).json({ message: "User ID is required" });
+    }
+
+    // Delete the user
+    const userDeleted = await userModel
+      .findByIdAndDelete(userId)
+      .session(session);
+
+    if (!userDeleted) {
+      await session.abortTransaction();
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    await session.commitTransaction();
+    res.json({
+      success: true,
+      message: "Account deleted successfully",
+    });
+  } catch (error) {
+    await session.abortTransaction();
+    res.status(500).json({ message: "Server error", error: error.message });
+  } finally {
+    session.endSession();
+  }
+};
+
+
 export {
   loginUser,
   registerUser,
   adminLogin,
   forgotPasswordUser,
   resetPasswordUser,
+  getUserProfile,
+  deleteUserAccount,
+  updateEmail,
 };
