@@ -66,7 +66,7 @@ const StatCard = ({ title, count, color }) => {
 
   return (
     <div
-      className={`p-6 border-l-4 rounded-lg shadow-lg bg-white ${colorClasses[color]}`}
+      className={`p-6 border-l-4 rounded-lg shadow-lg  ${colorClasses[color]}`}
     >
       <h2 className="text-lg font-semibold text-gray-600">{title}</h2>
       <p className={`text-4xl font-bold ${colorClasses[color]}`}>{count}</p>

@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { backendUrl, currency } from "../App";
 import { toast } from "react-toastify";
 import { MdDelete, MdEdit } from "react-icons/md";
@@ -8,6 +8,8 @@ import { MdDelete, MdEdit } from "react-icons/md";
 const ListProducts = ({ token }) => {
   const [listItems, setListItems] = useState([]);
   const navigate = useNavigate();
+  const location = useLocation();
+
 
   const fetchList = async () => {
     try {
@@ -31,10 +33,28 @@ const ListProducts = ({ token }) => {
         headers: { admintoken: token },
       });
       if (response?.data?.success) {
-        toast.success("Product removed successfully!");
+        toast.success("Product removed successfully!", {
+          position: "top-center",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
         await fetchList();
       } else {
-        toast.error(response.data.message);
+        toast.error(response.data.message, {
+          position: "top-center",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
       }
     } catch (error) {
       console.error(error);
@@ -42,9 +62,14 @@ const ListProducts = ({ token }) => {
     }
   };
 
-  useEffect(() => {
-    fetchList();
-  }, []);
+useEffect(() => {
+  fetchList(); // Always fetch on mount
+
+  if (location.state?.updated) {
+    fetchList(); // Fetch again if update signal exists
+    window.history.replaceState({}, document.title); // Clear state after fetching
+  }
+}, [location]);
 
   return (
     <div className="bg-white">
@@ -79,7 +104,7 @@ const ListProducts = ({ token }) => {
                 </td>
                 <td className="py-3 px-4">{item?.name}</td>
                 <td className="py-3 px-4">
-                  {item?.description.slice(0, 80)}...
+                  {item?.description.slice(0, 100)}...
                 </td>
                 <td className="py-3 px-4">{item?.category}</td>
                 <td className="py-3 pl-4 text-left font-semibold text-gray-600">
