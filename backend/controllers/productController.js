@@ -102,4 +102,91 @@ const removeProduct = async (req, res) => {
   }
 };
 
-export { addProduct, listProducts, singleProduct, removeProduct };
+const updateProduct = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Find the product
+    const product = await productModel.findById(id);
+    if (!product) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Product not found" });
+    }
+
+    let {
+      name,
+      description,
+      price,
+      category,
+      subCategory,
+      sizes,
+      bestseller,
+      existingImages,
+    } = req.body;
+
+     if (!name || !description || !price || !category || !subCategory) {
+       return res
+         .status(400)
+         .json({
+           success: false,
+           message: "All required fields must be provided",
+         });
+    }
+    
+     price = Number(price);
+     if (isNaN(price)) {
+       return res
+         .status(400)
+         .json({ success: false, message: "Invalid price value" });
+     }
+
+    // ✅ Prevent JSON.parse error by checking if values exist
+    sizes = sizes ? JSON.parse(sizes) : [];
+    existingImages = existingImages ? JSON.parse(existingImages) : [];
+
+    // Handle new image uploads
+    const image1 = req.files?.newImage1?.[0];
+    const image2 = req.files?.newImage2?.[0];
+    const image3 = req.files?.newImage3?.[0];
+    const image4 = req.files?.newImage4?.[0];
+
+    const newImages = [image1, image2, image3, image4].filter(Boolean);
+    const newImageUrls = [];
+
+    for (const image of newImages) {
+      const result = await cloudinary.uploader.upload(image.path, {
+        folder: "products",
+      });
+      newImageUrls.push(result.secure_url);
+    }
+
+    // Combine existing images and newly uploaded ones
+    const updatedImages = [...existingImages, ...newImageUrls];
+
+    // Update product details
+    product.name = name;
+    product.description = description;
+    product.price = Number(price);
+    product.category = category;
+    product.subCategory = subCategory;
+    product.bestseller = bestseller === "true" ? true : false;
+    product.sizes = sizes;
+    product.image = updatedImages;
+
+    await product.save();
+
+    res.json({ success: true, message: "Product updated successfully" });
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: error.message });
+  }
+};
+
+export {
+  addProduct,
+  listProducts,
+  singleProduct,
+  removeProduct,
+  updateProduct,
+};
