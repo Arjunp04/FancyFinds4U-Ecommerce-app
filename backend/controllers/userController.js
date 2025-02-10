@@ -38,7 +38,6 @@ const loginUser = async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error);
     res.json({
       success: false,
       message: error.message,
@@ -93,7 +92,6 @@ const registerUser = async (req, res) => {
       message: "User registered successfully",
     });
   } catch (error) {
-    console.log(error);
     res.json({
       success: false,
       message: error.message,

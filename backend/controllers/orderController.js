@@ -18,7 +18,6 @@ const razorpayInstance = new Razorpay({
 const placeOrder = async (req, res) => {
   try {
     const { userId, amount, items, address } = req.body;
-    // console.log(req.body);
 
     const orderData = {
       userId,
@@ -37,7 +36,6 @@ const placeOrder = async (req, res) => {
     await userModel.findByIdAndUpdate(userId, { cartData: {} });
     res.json({ success: true, message: "Order Placed" });
   } catch (error) {
-    console.log(error);
     res.json({ success: false, message: error.message });
   }
 };
@@ -98,7 +96,6 @@ const placeOrderStripe = async (req, res) => {
       session_url: session.url,
     });
   } catch (error) {
-    console.log(error);
     res.json({ success: false, message: error.message });
   }
 };
@@ -123,7 +120,6 @@ const verifyStripePayment = async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error);
     res.json({ success: false, message: error.message });
   }
 };
@@ -155,13 +151,11 @@ const placeOrderRazorPay = async (req, res) => {
 
     await razorpayInstance.orders.create(options, (error, order) => {
       if (error) {
-        console.log(error);
         return res.json({ success: false, message: error });
       }
       res.json({ success: true, order });
     });
   } catch (error) {
-    console.log(error);
     res.json({ success: false, message: error.message });
   }
 };
@@ -187,7 +181,6 @@ const verifyRazorPayemnt = async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error);
     res.json({ success: false, message: error.message });
   }
 };
@@ -205,7 +198,6 @@ const allOrders = async (req, res) => {
       orders: reversedOrders,
     });
   } catch (error) {
-    console.log(error);
     res.json({ success: false, message: error.message });
   }
 };
@@ -223,7 +215,6 @@ const userOrders = async (req, res) => {
       orders,
     });
   } catch (error) {
-    console.log(error);
     res.json({ success: false, message: error.message });
   }
 };
@@ -240,7 +231,6 @@ const updateOrderStatus = async (req, res) => {
       message: "Order status updated",
     });
   } catch (error) {
-    console.log(error);
     res.json({ success: false, message: error.message });
   }
 };

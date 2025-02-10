@@ -49,7 +49,6 @@ const addProduct = async (req, res) => {
 
     res.json({ success: true, message: "Product added" });
   } catch (error) {
-    console.log(error);
     res.json({
       success: false,
       message: error.message,
@@ -63,7 +62,6 @@ const listProducts = async (req, res) => {
     const products = await productModel.find({});
     res.json({ success: true, message: "Fetched all products", products });
   } catch (error) {
-    console.log(error);
     res.json({
       success: false,
       message: error.message,
@@ -78,7 +76,6 @@ const singleProduct = async (req, res) => {
     const product = await productModel.findById(productId);
     res.json({ success: true, message: "product details fetched.", product });
   } catch (error) {
-    console.log(error);
     res.json({
       success: false,
       message: error.message,
@@ -91,10 +88,8 @@ const removeProduct = async (req, res) => {
   try {
     const { id } = req.params;
     const removed = await productModel.findByIdAndDelete(id);
-    console.log(removed);
     res.json({ success: true, message: "Product removed." });
   } catch (error) {
-    console.log(error);
     res.json({
       success: false,
       message: error,
@@ -178,7 +173,6 @@ const updateProduct = async (req, res) => {
 
     res.json({ success: true, message: "Product updated successfully" });
   } catch (error) {
-    console.log(error);
     res.json({ success: false, message: error.message });
   }
 };

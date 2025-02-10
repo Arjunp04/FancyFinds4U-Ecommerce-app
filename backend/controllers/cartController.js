@@ -31,7 +31,6 @@ const addToCart = async (req, res) => {
     await userModel.findByIdAndUpdate(userId, { cartData });
     res.json({ success: true, message: "Added to Cart" });
   } catch (error) {
-    console.log(error);
     res.json({ success: false, message: error.message });
   }
 };
@@ -62,7 +61,6 @@ const updateCart = async (req, res) => {
 
     res.json({ success: true, message: "Cart Updated" }); // Send the response
   } catch (error) {
-    console.log(error);
     res.json({ success: false, message: error.message }); // Send error response
   }
 };
@@ -76,7 +74,6 @@ const getUserCart = async (req, res) => {
 
     res.json({ success: true, message: "Cart data", cartData });
   } catch (error) {
-    console.log(error);
     res.json({ success: false, message: error.message });
   }
 };
