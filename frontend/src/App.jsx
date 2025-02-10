@@ -19,6 +19,8 @@ const VerifyPayment = lazy(() => import("./pages/VerifyPayment"));
 const ForgotPassword = lazy(() => import("./pages/ForgotPassword"));
 const ResetPassword = lazy(() => import("./pages/ResetPassword"));
 const MyProfile = lazy(() => import("./pages/MyProfile"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+
 
 const App = () => {
   return (
@@ -41,6 +43,7 @@ const App = () => {
           <Route path="/place-order" element={<PlaceOrder />} />
           <Route path="/verify" element={<VerifyPayment />} />
           <Route path="/my-profile" element={<MyProfile />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
       <Footer />

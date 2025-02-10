@@ -61,13 +61,10 @@ const Product = () => {
             <img src={assets.star_icon} className="w-3 5" alt="" />
           </div>
           <p className="mt-4 text-3xl font-medium">
-            {currency}{" "}
-            {productData.price}
+            {currency} {productData.price}
           </p>
-          <p className="mt-5 text-gray-500 md:w-4/5">
-            {productData.description}
-          </p>
-          <div className="flex flex-col gap-4 my-8">
+
+          <div className="flex flex-col gap-4 mt-4">
             <p>Select Size</p>
             <div className="flex gap-2">
               {productData.sizes.map((item, index) => (
@@ -84,13 +81,17 @@ const Product = () => {
             </div>
           </div>
 
+          <p className="my-6 text-gray-500 md:w-4/5">
+            {productData.description}
+          </p>
+
           <button
             onClick={() => addToCart(productData._id, size)}
             className="bg-blue-800 text-white px-8 py-3 text-sm active:bg-gray-800 hover:bg-blue-700"
           >
             ADD TO CART
           </button>
-          <hr className=" mt-8 sm:w-4/5" />
+          <hr className=" mt-2 sm:w-4/5" />
           <div className="text-sm text-gray-500 mt-5 flex flex-col gap-1">
             <p>100% Original Product</p>
             <p> Cash on Delivery is available on the product</p>
