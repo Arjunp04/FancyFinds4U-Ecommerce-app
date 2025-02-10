@@ -16,7 +16,6 @@ const Home = ({ token }) => {
           admintoken: token,
         },
       });
-      console.log(response);
       if (response?.data?.success) {
         setStats({
           totalUsers: response.data.totalUsers,
@@ -25,7 +24,6 @@ const Home = ({ token }) => {
         });
       }
     } catch (error) {
-      console.log(error);
       console.error("Error fetching statistics", error);
     }
   };

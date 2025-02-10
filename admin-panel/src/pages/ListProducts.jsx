@@ -19,11 +19,29 @@ const ListProducts = ({ token }) => {
       if (response?.data?.success) {
         setListItems(response.data.products);
       } else {
-        toast.error(response.data.message);
+        toast.error(response.data.message, {
+          position: "top-center",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
       }
     } catch (error) {
       console.error(error);
-      toast.error("Failed to fetch products.");
+      toast.error("Failed to fetch products.", {
+        position: "top-center",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
   };
 
@@ -58,7 +76,16 @@ const ListProducts = ({ token }) => {
       }
     } catch (error) {
       console.error(error);
-      toast.error("Failed to remove product.");
+      toast.error("Failed to remove product.", {
+        position: "top-center",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
   };
 

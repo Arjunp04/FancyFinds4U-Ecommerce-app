@@ -95,11 +95,6 @@ const UpdateProduct = ({ token }) => {
         formData.append(`newImage${index + 1}`, image);
       });
 
-      // ✅ Log FormData before sending
-      for (let pair of formData.entries()) {
-        console.log(pair[0], pair[1]);
-      }
-
       const response = await axios.put(
         `${backendUrl}/api/product/update/${id}`,
         formData,
@@ -110,7 +105,6 @@ const UpdateProduct = ({ token }) => {
           },
         }
       );
-      console.log(response);
       if (response.data.success) {
         toast.success("Product updated successfully!", {
           position: "top-center",
@@ -127,7 +121,6 @@ const UpdateProduct = ({ token }) => {
         }, 1000);
       }
     } catch (error) {
-      console.log(error);
       toast.error("Failed to update product", {
         position: "top-center",
         autoClose: 1500,

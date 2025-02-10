@@ -94,7 +94,16 @@ const Orders = ({ token }) => {
       }
     } catch (error) {
       console.error(error);
-      toast.error("Failed to update order status.");
+      toast.error("Failed to update order status.", {
+        position: "top-center",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
   };
 

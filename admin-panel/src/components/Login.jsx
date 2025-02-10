@@ -40,8 +40,12 @@ const Login = ({ token, setToken }) => {
         toast.error(response.data.message || "Login failed!", {
           position: "top-center",
           autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
           theme: "light",
-          transition: Zoom,
         });
       }
     } catch (error) {
@@ -49,8 +53,12 @@ const Login = ({ token, setToken }) => {
       toast.error("Something went wrong. Try again!", {
         position: "top-center",
         autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
         theme: "light",
-        transition: Zoom,
       });
     }
   };
