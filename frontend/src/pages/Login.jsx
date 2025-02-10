@@ -32,10 +32,28 @@ const Login = () => {
         localStorage.setItem("token", response.data.token);
         navigate("/");
       } else {
-        toast.error(response.data.message);
+        toast.error(response.data.message, {
+          position: "top-center",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
       }
     } catch (error) {
-      toast.error(error.message);
+      toast.error(error.message, {
+        position: "top-center",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     } finally {
       setIsButtonDisabled(false);
     }
@@ -85,6 +103,7 @@ const Login = () => {
               onChange={(e) => setPassword(e.target.value)}
               className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-400 shadow-md"
               required
+              autoComplete="current-password"
             />
           </div>
 

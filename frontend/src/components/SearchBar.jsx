@@ -11,7 +11,6 @@ const SearchBar = () => {
 
   // search bar to be displayed only on collection page not on other pages
   useEffect(() => {
-    // console.log(location.pathname)
     if (location.pathname.includes("collection") ) {
       setVisible(true);
     } else {

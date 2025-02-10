@@ -35,7 +35,6 @@ const ShopContextProvider = (props) => {
       return;
     }
 
-    // console.log(itemId, size);
     let cartData = structuredClone(cartItems);
 
     if (cartData[itemId]) {
@@ -62,7 +61,6 @@ const ShopContextProvider = (props) => {
           }
         );
       } catch (error) {
-        console.log(error);
         toast.error(error.message, {
           position: "top-center",
           autoClose: 1500,
@@ -108,9 +106,7 @@ const ShopContextProvider = (props) => {
             },
           }
         );
-        // console.log(response);
       } catch (error) {
-        console.log(error);
         toast.error(error.message, {
           position: "top-center",
           autoClose: 1500,
@@ -161,7 +157,6 @@ const ShopContextProvider = (props) => {
         });
       }
     } catch (error) {
-      console.log(error);
       toast.error(error.message, {
         position: "top-center",
         autoClose: 1500,
@@ -186,12 +181,10 @@ const ShopContextProvider = (props) => {
           },
         }
       );
-      console.log(response);
       if (response.data.success) {
         setCartItems(response.data.cartData);
       }
     } catch (error) {
-      console.log(error);
       toast.error(error.message, {
         position: "top-center",
         autoClose: 1500,

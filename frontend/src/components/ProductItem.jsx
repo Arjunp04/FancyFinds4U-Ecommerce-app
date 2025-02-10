@@ -12,7 +12,7 @@ const ProductItem = ({ id, image, name, price }) => {
     >
       <div className="overflow-hidden">
         <img
-          className="transition ease-in-out duration-300 object-cover w-full h-64 rounded-lg"
+          className="transition ease-in-out duration-300 object-cover w-full h-72 sm:h-80 md:h-72 lg:h-64 rounded-lg"
           src={image[0]}
           alt={name}
         />

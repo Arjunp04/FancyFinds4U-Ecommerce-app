@@ -25,7 +25,16 @@ const MyProfile = () => {
         });
         setUser(response.data);
       } catch (error) {
-        toast.error("Failed to load profile. Please log in again.");
+        toast.error("Failed to load profile. Please log in again.", {
+          position: "top-center",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
       }
     };
 
@@ -39,12 +48,29 @@ const MyProfile = () => {
         { email: newEmail },
         { headers: { token: token } }
       );
-      toast.success("Email updated successfully");
+      toast.success("Email updated successfully", {
+        position: "top-center",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
       setUser((prev) => ({ ...prev, email: response.data.updatedEmail }));
       setIsEditing(false);
     } catch (error) {
-      console.log(error);
-      toast.error("Failed to update email");
+      toast.error("Failed to update email", {
+        position: "top-center",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
   };
 
@@ -55,7 +81,16 @@ const MyProfile = () => {
         headers: { token: token },
       });
       localStorage.clear();
-      toast.success("Account deleted successfully");
+      toast.success("Account deleted successfully", {
+        position: "top-center",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
       setIsModalOpen(false);
 
       setTimeout(() => {
@@ -63,8 +98,16 @@ const MyProfile = () => {
         window.location.reload();
       }, 1000);
     } catch (error) {
-      console.log(error);
-      toast.error("Failed to delete account");
+      toast.error("Failed to delete account", {
+        position: "top-center",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     } finally {
       setIsDeleting(false); // Hide loader
     }

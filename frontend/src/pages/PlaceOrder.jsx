@@ -55,7 +55,6 @@ const PlaceOrder = () => {
       order_id: order.id,
       receipt: order.receipt,
       handler: async (response) => {
-        console.log(response);
         try {
           const { data } = await axios.post(
             `${backendUrl}/api/order/verify-razorpay`,
@@ -71,14 +70,21 @@ const PlaceOrder = () => {
             setCartItems({});
           }
         } catch (error) {
-          console.log(error);
-          toast.error(error);
+          toast.error(error, {
+            position: "top-center",
+            autoClose: 1500,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
         }
       },
     };
 
     const rzp = new window.Razorpay(options);
-    console.log(rzp);
     rzp.open();
   };
 
@@ -122,7 +128,16 @@ const PlaceOrder = () => {
             setCartItems({});
             navigate("/orders");
           } else {
-            toast.error(response.data.message);
+            toast.error(response.data.message, {
+              position: "top-center",
+              autoClose: 1500,
+              hideProgressBar: false,
+              closeOnClick: false,
+              pauseOnHover: false,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+            });
           }
           break;
 
@@ -134,12 +149,22 @@ const PlaceOrder = () => {
               headers: { token: token },
             }
           );
-          console.log(responseStripe)
           if (responseStripe.data.success) {
             window.location.replace(responseStripe.data.session_url);
           } else {
             toast.error(
-              responseStripe.data.message || "Failed to initiate Stripe payment"
+              responseStripe.data.message ||
+                "Failed to initiate Stripe payment",
+              {
+                position: "top-center",
+                autoClose: 1500,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: false,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+              }
             );
           }
           break;
@@ -155,7 +180,16 @@ const PlaceOrder = () => {
           if (responseRazorpay.data.success) {
             initiateRazorPay(responseRazorpay.data.order);
           } else {
-            toast.error("Failed to initiate Razorpay payment");
+            toast.error("Failed to initiate Razorpay payment", {
+              position: "top-center",
+              autoClose: 1500,
+              hideProgressBar: false,
+              closeOnClick: false,
+              pauseOnHover: false,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+            });
           }
           break;
 
@@ -163,7 +197,16 @@ const PlaceOrder = () => {
           break;
       }
     } catch (error) {
-      toast.error(error.message);
+      toast.error(error.message, {
+        position: "top-center",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     } finally {
       setLoading(false); // End loading state
     }

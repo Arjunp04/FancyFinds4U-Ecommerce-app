@@ -36,7 +36,6 @@ const Orders = () => {
         setOrderData(allOrdersItems.reverse());
       }
     } catch (error) {
-      console.log(error);
     } finally {
       setLoading(false); // Stop loading after API call
     }

@@ -4,7 +4,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 * {
   font-family: Outfit;
 }
@@ -15,13 +14,13 @@
   font-style: normal;
 }
 
-::-webkit-scrollbar{
+::-webkit-scrollbar {
   display: none;
 }
 
-@media(max-width :640px){
- a.active {
-  background-color: rgb(14, 14, 172);
-  color: white;
- }
+@media (max-width: 640px) {
+  a.active {
+    background-color: rgb(14, 14, 172);
+    color: white;
+  }
 }

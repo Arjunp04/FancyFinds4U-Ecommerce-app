@@ -6,39 +6,33 @@ import ProductItem from "../components/ProductItem";
 
 const Collection = () => {
   const { products, search, setSearch, showSearch } = useContext(ShopContext);
-  const [showFilter, setShowFilter] = useState(false);
+  const [showFilter, setShowFilter] = useState(true);
   const [filterProducts, setFilterProducts] = useState([]);
   const [category, setCategory] = useState([]);
   const [subCategory, setSubCategory] = useState([]);
   const [sortType, setSortType] = useState("relevant");
+  const [priceRange, setPriceRange] = useState({ min: 0, max: 50000 });
 
   const toggleCategory = (e) => {
-    if (category.includes(e.target.value)) {
-      // to remove the category from array after checkbox is unchecked
-      setCategory((prev) => prev.filter((item) => item !== e.target.value));
-    } else {
-      // to add the category in the array if checkbox is checked
-      setCategory((prev) => [...prev, e.target.value]);
-    }
+    setCategory((prev) =>
+      prev.includes(e.target.value)
+        ? prev.filter((item) => item !== e.target.value)
+        : [...prev, e.target.value]
+    );
   };
 
   const toggleSubCategory = (e) => {
-    if (subCategory.includes(e.target.value)) {
-      // to remove the subcategory from array after checkbox is unchecked
-      setSubCategory((prev) => prev.filter((item) => item !== e.target.value));
-    } else {
-      // to add the subcategory in the array if checkbox is checked
-      setSubCategory((prev) => [...prev, e.target.value]);
-    }
+    setSubCategory((prev) =>
+      prev.includes(e.target.value)
+        ? prev.filter((item) => item !== e.target.value)
+        : [...prev, e.target.value]
+    );
   };
 
-  // appling filter on procutd list
   const applyFilter = () => {
-    //creating products copy
     let productsCopy = products.slice();
 
     if (showSearch && search) {
-      //checking f search query is avaialble or not
       productsCopy = productsCopy.filter((item) =>
         item.name.toLowerCase().includes(search.toLowerCase())
       );
@@ -49,12 +43,17 @@ const Collection = () => {
         category.includes(item.category)
       );
     }
-    // means a filter is selcted
+
     if (subCategory.length > 0) {
       productsCopy = productsCopy.filter((item) =>
         subCategory.includes(item.subCategory)
       );
     }
+
+    // Apply price range filter
+    productsCopy = productsCopy.filter(
+      (item) => item.price >= priceRange.min && item.price <= priceRange.max
+    );
 
     setFilterProducts(productsCopy);
   };
@@ -66,11 +65,9 @@ const Collection = () => {
       case "low-high":
         setFilterProducts(fpCopy.sort((a, b) => a.price - b.price));
         break;
-
       case "high-low":
         setFilterProducts(fpCopy.sort((a, b) => b.price - a.price));
         break;
-
       default:
         applyFilter();
         break;
@@ -79,122 +76,104 @@ const Collection = () => {
 
   useEffect(() => {
     applyFilter();
-  }, [category, subCategory, search, showSearch, products]);
+  }, [category, subCategory, search, showSearch, products, priceRange]);
 
   useEffect(() => {
     sortProduct();
   }, [sortType]);
 
-  // useEffect(() => {
-  //   console.log(category)
-  //   console.log("ok", subCategory);
-  // }, [category,subCategory]);
-
   return (
-    <div className="flex flex-col md:flex-row gap-1 sm:gap-10 pt-10 border-t px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]">
-      {/* creating filters section  */}
-      <div className="min-w-60">
+    <div className="flex flex-col md:flex-row gap-5 pt-10 border-t px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]">
+      {/* Filters Section */}
+      <div className="w-full md:w-2/6 lg:w-1/4 xl:w-1/5 border-r border-gray-300 pr-5">
         <p
-          onClick={() => {
-            setShowFilter(!showFilter);
-          }}
-          className="my-2 flex text-xl items-center gap-2 cursor-pointer"
+          onClick={() => setShowFilter(!showFilter)}
+          className="text-lg font-semibold cursor-pointer flex items-center justify-between"
         >
           FILTERS
           <img
-            className={`h-3 md:hidden ${showFilter ? " rotate-90" : ""}`}
+            className={`h-4 md:hidden transition-transform ${
+              showFilter ? "rotate-90" : ""
+            }`}
             src={assets.dropdown_icon}
-            alt="dropdown icon"
+            alt="dropdown"
           />
         </p>
 
-        {/* category filter  */}
-        {/* displaying filters in small screens when clicked  */}
-        <div
-          className={`border border-gray-300 pl-5 py-3 mt-6 ${
-            showFilter ? "" : "hidden"
-          } md:block`}
-        >
-          <p className="mb-3 text-sm font-medium">CATEGORIES</p>
-          <div className="flex flex-col gap-2 text-sm font-light text-gray-700">
-            <p className="flex gap-2">
-              <input
-                type="checkbox"
-                className="w-3"
-                value={"Men"}
-                onChange={toggleCategory}
-              />{" "}
-              Men
-            </p>
-            <p className="flex gap-2">
-              <input
-                type="checkbox"
-                className="w-3"
-                value={"Women"}
-                onChange={toggleCategory}
-              />{" "}
-              Women
-            </p>
-            <p className="flex gap-2">
-              <input
-                type="checkbox"
-                className="w-3"
-                value={"Kids"}
-                onChange={toggleCategory}
-              />{" "}
-              Kids
-            </p>
+        <div className={`${showFilter ? "" : "hidden"} md:block`}>
+          {/* Category Filter */}
+          <div className="mt-4 border-b pb-3">
+            <p className="text-sm font-medium">CATEGORIES</p>
+            <div className="mt-2 flex flex-col space-y-2 text-sm text-gray-700">
+              {["Men", "Women", "Kids"].map((item) => (
+                <label key={item} className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    className="w-4 h-4"
+                    value={item}
+                    onChange={toggleCategory}
+                  />
+                  {item}
+                </label>
+              ))}
+            </div>
           </div>
-        </div>
 
-        {/* subcategories type filter  */}
-        <div
-          className={`border border-gray-300 pl-5 py-3 my-5 ${
-            showFilter ? "" : "hidden"
-          } md:block`}
-        >
-          <p className="mb-3 text-sm font-medium">TYPE</p>
-          <div className="flex flex-col gap-2 text-sm font-light text-gray-700">
-            <p className="flex gap-2">
+          {/* Subcategory Filter */}
+          <div className="mt-4 border-b pb-3">
+            <p className="text-sm font-medium">TYPE</p>
+            <div className="mt-2 flex flex-col space-y-2 text-sm text-gray-700">
+              {["Topwear", "Bottomwear", "Winterwear"].map((item) => (
+                <label key={item} className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    className="w-4 h-4"
+                    value={item}
+                    onChange={toggleSubCategory}
+                  />
+                  {item}
+                </label>
+              ))}
+            </div>
+          </div>
+
+          {/* Price Range Filter */}
+          <div className="mt-4">
+            <p className="text-sm font-medium">PRICE RANGE</p>
+            <div className="flex items-center gap-3 mt-2">
               <input
-                type="checkbox"
-                className="w-3"
-                value={"Topwear"}
-                onChange={toggleSubCategory}
-              />{" "}
-              Topwear
-            </p>
-            <p className="flex gap-2">
+                type="number"
+                className="w-20 p-1 border border-gray-300 rounded"
+                value={priceRange.min}
+                onChange={(e) =>
+                  setPriceRange({ ...priceRange, min: Number(e.target.value) })
+                }
+                min={0}
+              />
+              <span>-</span>
               <input
-                type="checkbox"
-                className="w-3"
-                value={"Bottomwear"}
-                onChange={toggleSubCategory}
-              />{" "}
-              Bottomwear
-            </p>
-            <p className="flex gap-2">
-              <input
-                type="checkbox"
-                className="w-3"
-                value={"Winterwear"}
-                onChange={toggleSubCategory}
-              />{" "}
-              Winterwear
-            </p>
+                type="number"
+                className="w-20 p-1 border border-gray-300 rounded"
+                value={priceRange.max}
+                onChange={(e) =>
+                  setPriceRange({ ...priceRange, max: Number(e.target.value) })
+                }
+                max={10000}
+              />
+            </div>
           </div>
         </div>
       </div>
 
-      {/* right section displaying sorting and all collections products  */}
-      <div className="flex-1">
-        <div className="flex justify-between text-base sm:text-2xl mb-4">
+      {/* Products Section */}
+      <div className="flex-1 pl-0 sm:pl-5">
+        <div className="flex flex-col sm:flex-row justify-between items-center mb-4 mt-5 sm:mt-0">
           <Title text1={"ALL"} text2={"COLLECTIONS"} />
 
-          {/* product sorting  */}
+          {/* Sorting Dropdown */}
           <select
             onChange={(e) => setSortType(e.target.value)}
-            className="border border-gray-300 bg-white text-sm px-3 py-2 rounded-md shadow-sm  focus:border-blue-500 hover:bg-gray-100 transition duration-200"
+            className="border border-gray-300 bg-white text-sm px-3 py-2 rounded-md shadow-sm focus:border-blue-500 hover:bg-gray-100 transition duration-200 mb-2 sm:mb-0"
           >
             <option value="relevant">Sort by: Relevant</option>
             <option value="low-high">Sort by: Low to High</option>
@@ -202,8 +181,8 @@ const Collection = () => {
           </select>
         </div>
 
-        {/* mapping and displaying all products  */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 gap-y-6">
+        {/* Display Products */}
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-5">
           {filterProducts.map((item, index) => (
             <ProductItem
               key={index}

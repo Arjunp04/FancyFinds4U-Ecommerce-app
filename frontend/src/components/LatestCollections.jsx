@@ -14,10 +14,10 @@ const LatestCollections = () => {
   return (
     <div className="my-10">
       <div className="text-center py-8 text-3xl">
-        <Title text1={"LATEST"} text2={"COLLECTIONS"} />
-        <p className="w-3/4 m-auto text-xs sm:text-sm md:text-base text-gray-600">
-          Refresh your style with our latest arrivals—crafted for elegance,
-          designed for impact.
+        <Title text1={"NEW"} text2={"ARRIVALS"} />
+        <p className="w-3/4 m-auto text-xs sm:text-sm md:text-base text-gray-600 -mt-2">
+          Refresh your style with new arrivals crafted for elegance and designed
+          for impact.
         </p>
       </div>
       {/* displaying products  */}

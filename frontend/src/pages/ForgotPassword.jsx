@@ -18,7 +18,6 @@ const ForgotPassword = () => {
       const res = await axios.post(`${backendUrl}/api/user/forgot-password`, {
         email,
       });
-      console.log("Backend response:", res);
 
       const { token } = res.data; // Extract token from response
 
@@ -45,12 +44,29 @@ const ForgotPassword = () => {
         }
       );
 
-      console.log("EmailJS response:", emailResponse);
       setEmail("");
-      toast.success("Reset link has been sent to your email!");
+      toast.success("Reset link has been sent to your email!", {
+        position: "top-center",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     } catch (error) {
       console.error("Error:", error);
-      toast.error("Error sending email. Please try again.");
+      toast.error("Error sending email. Please try again.", {
+        position: "top-center",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     } finally {
       setIsSubmitting(false);
     }

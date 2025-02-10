@@ -29,7 +29,6 @@ const VerifyPayment = () => {
           },
         }
         );
-        console.log(response)
       if (response.data.success) {
         setCartItems({});
         navigate("/orders");
@@ -39,7 +38,17 @@ const VerifyPayment = () => {
     } catch (error) {
       console.error(error);
       toast.error(
-        error.message || "An error occurred while verifying payment."
+        error.message || "An error occurred while verifying payment.",
+        {
+          position: "top-center",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        }
       );
     }
   };
