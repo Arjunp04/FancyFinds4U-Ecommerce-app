@@ -3,7 +3,7 @@ import { ShopContext } from "../context/Shopcontext";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { FaUser, FaEnvelope, FaLock } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const Login = () => {
   const [currentState, setCurrentState] = useState("Login");
@@ -12,6 +12,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+  const location = useLocation();
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
@@ -30,7 +31,6 @@ const Login = () => {
       if (response.data.success) {
         setToken(response.data.token);
         localStorage.setItem("token", response.data.token);
-        navigate("/");
       } else {
         toast.error(response.data.message, {
           position: "top-center",
@@ -60,8 +60,13 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if (token) navigate("/");
-  }, [token]);
+    if (token) {
+      const redirectTo = location.state?.from || "/";
+      setTimeout(() => {
+        navigate(redirectTo);
+      }, 1200);
+    }
+  }, [token, navigate, location.state]);
 
   return (
     <div className="flex items-center justify-center">
@@ -80,6 +85,7 @@ const Login = () => {
                 onChange={(e) => setName(e.target.value)}
                 className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-400 shadow-md"
                 required
+                autoComplete="true"
               />
             </div>
           )}
@@ -92,6 +98,7 @@ const Login = () => {
               onChange={(e) => setEmail(e.target.value)}
               className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-400 shadow-md"
               required
+              autoComplete="true"
             />
           </div>
           <div className="relative">
@@ -103,7 +110,7 @@ const Login = () => {
               onChange={(e) => setPassword(e.target.value)}
               className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-400 shadow-md"
               required
-              autoComplete="current-password"
+              autoComplete="true"
             />
           </div>
 

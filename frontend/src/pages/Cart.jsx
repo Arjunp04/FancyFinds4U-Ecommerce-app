@@ -3,7 +3,10 @@ import { ShopContext } from "../context/Shopcontext";
 import Title from "../components/Title";
 import { assets } from "../assets/frontend_assets/assets";
 import CartTotal from "../components/CartTotal";
-import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { useLocation } from "react-router-dom";
+import axios from "axios";
+import { IoIosArrowForward } from "react-icons/io";
 
 const Cart = () => {
   const {
@@ -14,23 +17,19 @@ const Cart = () => {
     navigate,
     loading,
     setLoading,
+    token,
+    backendUrl,
   } = useContext(ShopContext);
   const [cartData, setCartData] = useState([]);
+  const location = useLocation();
 
   useEffect(() => {
     if (products.length > 0) {
-      const tempData = [];
-      for (const items in cartItems) {
-        for (const item in cartItems[items]) {
-          if (cartItems[items][item] > 0) {
-            tempData.push({
-              _id: items,
-              size: item,
-              quantity: cartItems[items][item],
-            });
-          }
-        }
-      }
+      const tempData = Object.entries(cartItems).flatMap(([productId, sizes]) =>
+        Object.entries(sizes)
+          .filter(([size, quantity]) => quantity > 0)
+          .map(([size, quantity]) => ({ _id: productId, size, quantity }))
+      );
       setCartData(tempData);
     }
   }, [cartItems, products]);
@@ -39,27 +38,86 @@ const Cart = () => {
   const handleNavigation = (path) => {
     setLoading(true);
     navigate(path);
-    setLoading(false);
+    setTimeout(() => setLoading(false), 500);
+  };
+
+  // Handle checkout process
+  const handleCheckout = async () => {
+    setLoading(true);
+    if (!token) {
+      // If no token, show error toast and redirect to login
+      toast.error("Please login first to place an order", {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      setLoading(false);
+      setTimeout(() => {
+        navigate("/login", { state: { from: location.pathname } });
+      }, 1200);
+    } else {
+      try {
+        setLoading(true);
+        const guestCart = JSON.parse(localStorage.getItem("guestCart")) || {};
+        const response = await axios.post(
+          `${backendUrl}/api/cart/guest/merge`,
+          { guestCart,},
+          { headers: { "Content-Type": "application/json", token } }
+        );
+        localStorage.removeItem("guestCart");
+        navigate("/place-order");
+      } catch (error) {
+        toast.error(error.message, {
+          position: "top-center",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      } finally {
+        setLoading(false);
+      }
+    }
   };
 
   return (
     <div className="border-t pt-14 relative px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]">
-      <div className="text-2xl mb-3">
-        <Title text1={"YOUR"} text2={"CART"} />
+      <div className="relative flex justify-between items-start mb-3">
+        <div className="text-2xl">
+          <Title text1={"YOUR"} text2={"CART"} />
+        </div>
+
+        {cartData.length > 0 && (
+          <button
+            onClick={() => navigate("/collection")}
+            className="flex items-center text-white bg-blue-700 hover:bg-blue-600 transition px-3 py-2 rounded font-medium"
+          >
+            <span>Continue Shopping</span>
+            <IoIosArrowForward className="size-4 ml-1" />
+          </button>
+        )}
       </div>
 
       {/* If cart is empty */}
       {cartData.length === 0 ? (
         <div className="flex flex-col items-center justify-center text-center my-20">
           <img
-            src={assets.cartempty}// Add an empty cart image in assets
+            src={assets.cartempty} // Add an empty cart image in assets
             alt="Empty Cart"
             className="w-40 sm:w-60 mb-4"
           />
           <p className="text-2xl text-gray-900 font-medium">
-            Your cart is empty!</p>
-          <p className="text-gray-500 mb-6 text-sm"
-          >
+            Your cart is empty!
+          </p>
+          <p className="text-gray-500 mb-6 text-sm">
             Looks like you haven’t added anything yet.
           </p>
           <button
@@ -109,13 +167,9 @@ const Cart = () => {
                     min={1}
                     defaultValue={item.quantity}
                     onChange={(e) => {
-                      e.target.value === "" || e.target.value === "0"
-                        ? null
-                        : updateQuantity(
-                            item._id,
-                            item.size,
-                            Number(e.target.value)
-                          );
+                      let value = Number(e.target.value);
+                      if (isNaN(value) || value <= 0) value = 1;
+                      updateQuantity(item._id, item.size, value);
                     }}
                   />
                   <img
@@ -134,15 +188,12 @@ const Cart = () => {
               <CartTotal />
               <div className="w-full text-end">
                 <button
-                  onClick={() => handleNavigation("/place-order")}
-                    className={` text-white px-8 py-3 text-sm my-8 bg-green-700 hover:bg-green-800
-                    
-                      ${
-                    loading ? "cursor-not-allowed opacity-50" : ""
-                  }`}
+                  onClick={handleCheckout}
+                  className={` text-white w-52 h-11 text-sm my-8 bg-green-700 hover:bg-green-800
+                      ${loading ? "cursor-not-allowed opacity-50" : ""}`}
                   disabled={loading}
                 >
-                  PROCEED TO CHECKOUT
+                  {loading ? "Processing..." : "PROCEED TO CHECKOUT"}
                 </button>
               </div>
             </div>
