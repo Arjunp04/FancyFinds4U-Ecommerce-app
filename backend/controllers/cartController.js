@@ -78,4 +78,47 @@ const getUserCart = async (req, res) => {
   }
 };
 
-export { addToCart, updateCart, getUserCart };
+//! ---------------- for non logged in or guest users --------------------- //
+
+// ----------- Merge Guest Cart on Login -----------
+const mergeCartOnLogin = async (req, res) => {
+  try {
+    const { userId, guestCart } = req.body;
+
+    if (!userId || !guestCart) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Missing userId or guestCart" });
+    }
+
+    const userData = await userModel.findById(userId);
+    if (!userData) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
+    }
+
+    let userCart = userData.cartData || {};
+
+    Object.keys(guestCart).forEach((itemId) => {
+      if (!userCart[itemId]) userCart[itemId] = {};
+      Object.keys(guestCart[itemId]).forEach((size) => {
+        userCart[itemId][size] =
+          (userCart[itemId][size] || 0) + guestCart[itemId][size];
+      });
+    });
+
+    await userModel.findByIdAndUpdate(userId, { cartData: userCart });
+
+    res.json({ success: true, message: "Cart merged successfully", userCart });
+  } catch (error) {
+    res.json({ success: false, message: error.message });
+  }
+};
+
+export {
+  addToCart,
+  updateCart,
+  getUserCart,
+  mergeCartOnLogin,
+};
