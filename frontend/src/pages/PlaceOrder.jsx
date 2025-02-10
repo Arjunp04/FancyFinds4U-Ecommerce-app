@@ -117,7 +117,7 @@ const PlaceOrder = () => {
 
       switch (method) {
         case "cod":
-         const response = await axios.post(
+          const response = await axios.post(
             `${backendUrl}/api/order/place-order`,
             orderData,
             {
@@ -142,7 +142,7 @@ const PlaceOrder = () => {
           break;
 
         case "stripe":
-        const responseStripe = await axios.post(
+          const responseStripe = await axios.post(
             `${backendUrl}/api/order/create-stripe-session`,
             orderData,
             {
@@ -281,6 +281,24 @@ const PlaceOrder = () => {
               className="border border-gray-300 rounded py-1.5 px-3.5 w-full focus:outline-none focus:border-blue-600"
             />
           </div>
+          <div className="flex gap-3">
+            <input
+              type="text"
+              name="country"
+              value={formData.country}
+              placeholder="Country"
+              onChange={handleChange}
+              className="border border-gray-300 rounded py-1.5 px-3.5 w-full focus:outline-none focus:border-blue-600"
+            />
+            <input
+              type="text"
+              name="zipCode"
+              value={formData.zipCode}
+              placeholder="Zip Code"
+              onChange={handleChange}
+              className="border border-gray-300 rounded py-1.5 px-3.5 w-full focus:outline-none focus:border-blue-600"
+            />
+          </div>
           <input
             type="number"
             name="phone"
@@ -334,8 +352,10 @@ const PlaceOrder = () => {
                     method === "cod" ? "bg-green-500" : ""
                   }`}
                 ></p>
-                <p className="text-gray-700
-                text-sm mx-4 font-medium">
+                <p
+                  className="text-gray-700
+                text-sm mx-4 font-medium"
+                >
                   CASH ON DELIVERY
                 </p>
               </div>
