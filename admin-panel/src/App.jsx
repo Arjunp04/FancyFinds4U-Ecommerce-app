@@ -3,12 +3,12 @@ import { Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
-import AddProduct from "./pages/addProduct";
 import ListProducts from "./pages/listProducts";
 import Orders from "./pages/Orders";
 import Login from "./components/Login";
 import Home from "./pages/Home";
 import UpdateProduct from "./pages/UpdateProduct";
+import AddProduct from "./pages/AddProduct";
 
 export const backendUrl = import.meta.env.VITE_BACKEND_URL;
 export const currency = "Rs";
