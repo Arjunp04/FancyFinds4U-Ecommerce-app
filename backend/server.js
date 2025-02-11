@@ -24,7 +24,11 @@ const allowedOrigins = [
 app.use(express.json());
 app.use(
   cors({
-    origin: allowedOrigins,
+    origin: [
+      "https://fancyfinds4u.vercel.app/",
+      "https://fancyfinds4u-admin-panel.vercel.app/",
+    ],
+    methods: "GET,UPDATE,PUT,DELETE",
     credentials: true,
   })
 );
