@@ -1,5 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
+dotenv.config();
 import cors from "cors";
 import connectToDB from "./config/connectDB.js";
 import connectCloudinary from "./config/cloudinary.js";
@@ -9,12 +10,13 @@ import cartRouter from "./routes/cartRoute.js";
 import orderRouter from "./routes/orderRoute.js";
 
 // ------------------- app config ------------------ //
-dotenv.config();
+
 //CREATING INSTANCE OF EXPPRESS PACKAGE
 const app = express();
 const port = process.env.PORT || 4000;
 connectToDB();
 connectCloudinary();
+
 const allowedOrigins = [
   process.env.FRONTEND_URL,
   process.env.ADMIN_FRONTEND_URL,
@@ -22,16 +24,24 @@ const allowedOrigins = [
 
 // ---------------------- middlewares --------------------//
 app.use(express.json());
+// CORS Middleware
 app.use(
   cors({
-    origin: [
-      "https://fancyfinds4u.vercel.app/",
-      "https://fancyfinds4u-admin-panel.vercel.app/",
-    ],
-    methods: "GET,UPDATE,PUT,DELETE",
-    credentials: true,
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true, // Allows cookies & authentication headers
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Allow all required methods
+    allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept", "Authorization"], // Allow custom headers
   })
 );
+
+// Handle preflight requests manually
+app.options("*", cors());
 app.use("/api/user", userRouter);
 app.use("/api/product", productRouter);
 app.use("/api/cart", cartRouter);
