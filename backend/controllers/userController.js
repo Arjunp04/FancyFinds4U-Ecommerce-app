@@ -1,5 +1,5 @@
 import userModel from "../models/userModel.js";
-import orderModel from "../models/orderModel.js"
+import orderModel from "../models/orderModel.js";
 import productModel from "../models/ProductModel.js";
 import validator from "validator";
 import bcrypt from "bcrypt";
@@ -7,7 +7,7 @@ import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 
 const createToken = (userId) => {
-  return jwt.sign({ id: userId }, process.env.JWT_SECRET, { expiresIn: "1h" });
+  return jwt.sign({ id: userId }, process.env.JWT_SECRET, { expiresIn: "30s" });
 };
 
 // ----------------- user login -------------------//
@@ -265,25 +265,49 @@ const deleteUserAccount = async (req, res) => {
 
 //  ---------------------admin dashbaord stats ---------------//
 
-const adminDashboardStats = async (req,res) => {
-   try {
-     const totalUsers = await userModel.countDocuments();
-     const totalOrders = await orderModel.countDocuments();
-     const totalProducts = await productModel.countDocuments();
+const adminDashboardStats = async (req, res) => {
+  try {
+    const totalUsers = await userModel.countDocuments();
+    const totalOrders = await orderModel.countDocuments();
+    const totalProducts = await productModel.countDocuments();
 
-     res.status(200).json({
-       success: true,
-       message:"All admin statistics fetched successfully",
-       totalUsers,
-       totalOrders,
-       totalProducts,
-     });
-   } catch (error) {
-     console.error("Error fetching admin stats:", error);
-     res.status(500).json({ success: false, message: "Server error" });
-   }
-}
+    res.status(200).json({
+      success: true,
+      message: "All admin statistics fetched successfully",
+      totalUsers,
+      totalOrders,
+      totalProducts,
+    });
+  } catch (error) {
+    console.error("Error fetching admin stats:", error);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
 
+const verifyTokenValidity = async (req, res) => {
+  const { token } = req.body;
+
+  if (!token) {
+    return res.status(401).json({
+      success: false,
+      message: "No token provided",
+      tokenExpired: true,
+    });
+  }
+
+  
+  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+    if (err) {
+      return res.json({
+        success: false,
+        tokenExpired: true,
+        message: "Token expired or invalid",
+      });
+    }
+
+    res.json({ success: true, userId: decoded.id });
+  });
+};
 
 export {
   loginUser,
@@ -294,5 +318,6 @@ export {
   getUserProfile,
   deleteUserAccount,
   updateEmail,
-  adminDashboardStats
+  adminDashboardStats,
+  verifyTokenValidity,
 };

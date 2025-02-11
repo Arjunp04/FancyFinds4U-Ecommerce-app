@@ -6,7 +6,7 @@ const authUser = async (req, res, next) => {
   if (!token) {
     return res.json({
       success: false,
-      message: "Not Authorized Login Again",
+      message: "Not Authorized. Please log in again.",
     });
   }
 
@@ -15,9 +15,16 @@ const authUser = async (req, res, next) => {
     req.body.userId = token_decode.id;
     next();
   } catch (error) {
+    if (error.name === "TokenExpiredError") {
+      return res.json({
+        success: false,
+        message: "Session expired. Please log in again.",
+        tokenExpired: true,
+      });
+    }
     res.json({
       success: false,
-      message: error.message,
+      message: "Invalid Token. Please log in again.",
     });
   }
 };

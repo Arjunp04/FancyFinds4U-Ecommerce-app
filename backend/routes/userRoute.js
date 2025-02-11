@@ -9,6 +9,7 @@ import {
   updateEmail,
   deleteUserAccount,
   adminDashboardStats,
+  verifyTokenValidity,
 } from "../controllers/userController.js";
 import authUser from "../middleware/authUser.js";
 import adminAuth from "../middleware/adminAuth.js";
@@ -17,6 +18,7 @@ const userRouter = express.Router();
 
 userRouter.post("/register", registerUser);
 userRouter.post("/login", loginUser);
+userRouter.post("/verify-token", verifyTokenValidity);
 userRouter.post("/forgot-password", forgotPasswordUser);
 userRouter.post("/reset-password", resetPasswordUser);
 
