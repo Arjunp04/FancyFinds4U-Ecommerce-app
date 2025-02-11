@@ -28,6 +28,7 @@ const Login = () => {
         `${backendUrl}/api/user${endpoint}`,
         payload
       );
+
       if (response.data.success) {
         setToken(response.data.token);
         localStorage.setItem("token", response.data.token);
@@ -44,7 +45,7 @@ const Login = () => {
         });
       }
     } catch (error) {
-      toast.error(error.message, {
+      toast.error("Something went wrong. Please try again.", {
         position: "top-center",
         autoClose: 1500,
         hideProgressBar: false,
@@ -60,7 +61,10 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if (token) {
+    const storedToken = localStorage.getItem("token");
+
+    if (token && storedToken) {
+      // ✅ Check both token state & localStorage
       const redirectTo = location.state?.from || "/";
       setTimeout(() => {
         navigate(redirectTo);

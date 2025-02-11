@@ -6,13 +6,14 @@ import PolicyFeatures from "../components/PolicyFeatures";
 import Testimonials from "../components/Testimonials";
 
 const Home = () => {
+
   return (
     <div className="px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]">
       <Hero />
       <LatestCollections />
       <BestSellerProducts />
       <PolicyFeatures />
-      <Testimonials/>
+      <Testimonials />
     </div>
   );
 };

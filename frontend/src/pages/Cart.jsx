@@ -108,7 +108,7 @@ const Cart = () => {
 
       {/* If cart is empty */}
       {cartData.length === 0 ? (
-        <div className="flex flex-col items-center justify-center text-center my-20">
+        <div className="flex flex-col items-center justify-center text-center">
           <img
             src={assets.cartempty} // Add an empty cart image in assets
             alt="Empty Cart"
