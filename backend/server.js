@@ -1,5 +1,5 @@
 import express from "express";
-import "dotenv/config";
+import dotenv from "dotenv";
 import cors from "cors";
 import connectToDB from "./config/connectDB.js";
 import connectCloudinary from "./config/cloudinary.js";
@@ -9,7 +9,7 @@ import cartRouter from "./routes/cartRoute.js";
 import orderRouter from "./routes/orderRoute.js";
 
 // ------------------- app config ------------------ //
-
+dotenv.config();
 //CREATING INSTANCE OF EXPPRESS PACKAGE
 const app = express();
 const port = process.env.PORT || 4000;
@@ -19,6 +19,7 @@ const allowedOrigins = [
   process.env.FRONTEND_URL,
   process.env.ADMIN_FRONTEND_URL,
 ];
+console.log("Allowed Origins:", allowedOrigins);
 
 // ---------------------- middlewares --------------------//
 app.use(express.json());
