@@ -62,9 +62,10 @@ const listProducts = async (req, res) => {
     const products = await productModel.find({});
     res.json({ success: true, message: "Fetched all products", products });
   } catch (error) {
+    console.log("Error fetching products:", error);
     res.json({
       success: false,
-      message: error.message
+      message: error.message,
     });
   }
 };
@@ -120,21 +121,19 @@ const updateProduct = async (req, res) => {
       existingImages,
     } = req.body;
 
-     if (!name || !description || !price || !category || !subCategory) {
-       return res
-         .status(400)
-         .json({
-           success: false,
-           message: "All required fields must be provided",
-         });
+    if (!name || !description || !price || !category || !subCategory) {
+      return res.status(400).json({
+        success: false,
+        message: "All required fields must be provided",
+      });
     }
-    
-     price = Number(price);
-     if (isNaN(price)) {
-       return res
-         .status(400)
-         .json({ success: false, message: "Invalid price value" });
-     }
+
+    price = Number(price);
+    if (isNaN(price)) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Invalid price value" });
+    }
 
     // ✅ Prevent JSON.parse error by checking if values exist
     sizes = sizes ? JSON.parse(sizes) : [];

@@ -17,30 +17,19 @@ const port = process.env.PORT || 4000;
 connectToDB();
 connectCloudinary();
 
-const allowedOrigins = [
-  process.env.FRONTEND_URL,
-  process.env.ADMIN_FRONTEND_URL,
-];
-
 // ---------------------- middlewares --------------------//
+
 app.use(express.json());
 // CORS Middleware
 app.use(
   cors({
-    origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    credentials: true, // Allows cookies & authentication headers
+    origin: [process.env.FRONTEND_URL, process.env.ADMIN_FRONTEND_URL],
+    credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
-// Handle preflight requests manually
-app.options("*", cors());
 app.use("/api/user", userRouter);
 app.use("/api/product", productRouter);
 app.use("/api/cart", cartRouter);
