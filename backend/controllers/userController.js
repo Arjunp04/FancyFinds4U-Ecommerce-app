@@ -7,7 +7,7 @@ import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 
 const createToken = (userId) => {
-  return jwt.sign({ id: userId }, process.env.JWT_SECRET, { expiresIn: "30s" });
+  return jwt.sign({ id: userId }, process.env.JWT_SECRET, { expiresIn: "12h" });
 };
 
 // ----------------- user login -------------------//
