@@ -127,6 +127,7 @@ useEffect(() => {
                     className="w-12 h-12 object-cover rounded-md border"
                     src={item?.image[0]}
                     alt="product"
+                    loading="lazy"
                   />
                 </td>
                 <td className="py-3 px-4">{item?.name}</td>

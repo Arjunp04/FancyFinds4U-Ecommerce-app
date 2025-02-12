@@ -14,6 +14,7 @@ const Footer = () => {
             className="mb-5 w-32"
             src={assets.logo}
             alt="FancyFinds4U Logo"
+            loading="lazy"
           />
           <p className="w-full md:w-2/3 text-gray-600">
             Discover trendy and high-quality fashion at FancyFinds4U. Your

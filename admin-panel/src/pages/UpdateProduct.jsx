@@ -154,6 +154,7 @@ const UpdateProduct = ({ token }) => {
                   src={img}
                   alt="Existing"
                   className="w-full h-full object-cover rounded-md"
+                  loading="lazy"
                 />
                 <button
                   type="button"
@@ -175,8 +176,9 @@ const UpdateProduct = ({ token }) => {
                   <div key={idx} className="relative w-20 h-20">
                     <img
                       src={URL.createObjectURL(img)}
-                      alt="New"
+                      alt="New product images"
                       className="w-full h-full object-cover rounded-md"
+                      loading="lazy"
                     />
                     <button
                       type="button"

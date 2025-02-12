@@ -125,8 +125,9 @@ const Orders = ({ token }) => {
                 <div className="flex flex-col md:flex-row items-start gap-3">
                   <img
                     src={assets?.parcel_icon}
-                    alt="icon"
+                    alt="parcel icon"
                     className="w-14 h-14 md:w-10 md:h-10 object-contain"
+                    loading="lazy"
                   />
                   <div className="w-full">
                     {order.items.map((item, idx) => (

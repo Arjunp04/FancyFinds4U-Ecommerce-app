@@ -16,7 +16,8 @@ const Contact = () => {
           <img
             src={assets.contact_img}
             alt="Contact"
-            className="w-full sm:max-w-[480px]"
+            className="w-full sm:max-w-[400px]"
+            loading="lazy"
           />
         </div>
 

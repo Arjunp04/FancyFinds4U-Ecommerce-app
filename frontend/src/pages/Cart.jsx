@@ -113,6 +113,7 @@ const Cart = () => {
             src={assets.cartempty} // Add an empty cart image in assets
             alt="Empty Cart"
             className="w-40 sm:w-60 mb-4"
+            loading="lazy"
           />
           <p className="text-2xl text-gray-900 font-medium">
             Your cart is empty!
@@ -144,7 +145,7 @@ const Cart = () => {
                     <img
                       className="w-16 sm:w-20"
                       src={productData.image[0]}
-                      alt=""
+                      alt="product images"
                     />
                     <div>
                       <p className="text-xs sm:text-lg font-medium">
@@ -175,8 +176,9 @@ const Cart = () => {
                   <img
                     onClick={() => updateQuantity(item._id, item.size, 0)}
                     src={assets.bin_icon}
-                    alt=""
+                    alt="bin icon"
                     className="w-4 sm:w-5 mr-4 cursor-pointer"
+                    loading="lazy"
                   />
                 </div>
               );

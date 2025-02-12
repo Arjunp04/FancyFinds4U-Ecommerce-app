@@ -37,14 +37,14 @@ const Product = () => {
               <img
                 src={item}
                 key={index}
-                alt=""
+                alt="product"
                 className="w-[24%] sm:w-full sm:mb-3 flex-shrink cursor-pointer"
                 onClick={() => setImage(item)}
               />
             ))}
           </div>
           <div className="w-full sm:w-[80%]">
-            <img className="w-full h-auto" src={image} alt="" />
+            <img className="w-full h-auto" src={image} alt="product" />
           </div>
         </div>
 

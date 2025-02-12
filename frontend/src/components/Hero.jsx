@@ -17,6 +17,7 @@ const Hero = () => {
           src={assets.hero}
           alt="Hero Image"
           className="w-full h-full object-cover opacity-45"
+          loading="lazy"
         />
       </div>
 
@@ -28,7 +29,12 @@ const Hero = () => {
           <p className="text-lg sm:text-xl mb-6 text-white">
             Find Your Perfect Look with FancyFinds4U
           </p>
-          <button onClick={()=>{navigate("/collection")}} className="bg-pink-600  text-white py-3 px-6 rounded-full text-lg font-semibold transition duration-300 transform hover:scale-105">
+          <button
+            onClick={() => {
+              navigate("/collection");
+            }}
+            className="bg-pink-600  text-white py-3 px-6 rounded-full text-lg font-semibold transition duration-300 transform hover:scale-105"
+          >
             Shop Now
           </button>
         </div>

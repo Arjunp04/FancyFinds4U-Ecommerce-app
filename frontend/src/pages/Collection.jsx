@@ -97,6 +97,7 @@ const Collection = () => {
             }`}
             src={assets.dropdown_icon}
             alt="dropdown"
+            loading="lazy"
           />
         </p>
 

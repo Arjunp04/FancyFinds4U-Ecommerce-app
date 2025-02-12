@@ -28,13 +28,19 @@ const SearchBar = () => {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
-        <img src={assets.search_icon} alt="search icon" className="w-4" />
+        <img
+          src={assets.search_icon}
+          alt="search icon"
+          className="w-4"
+          loading="lazy"
+        />
       </div>
       <img
         src={assets.cross_icon}
         alt="cross icon"
         className=" inline w-3 cursor-pointer"
         onClick={() => setShowSearch(false)}
+        loading="lazy"
       />
     </div>
   ) : null;

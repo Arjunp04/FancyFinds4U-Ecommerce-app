@@ -27,7 +27,7 @@ const Navbar = () => {
   return (
     <div className="flex justify-between items-center font-medium py-3 shadow-gray-300 shadow-md px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]">
       <Link to="/">
-        <img src={assets.logo} className="w-36" alt="logo" />
+        <img src={assets.logo} className="w-36" alt="logo" loading="lazy" />
       </Link>
 
       <ul className="hidden sm:flex gap-3 md:gap-5 lg:gap-8 text-base">
@@ -61,6 +61,7 @@ const Navbar = () => {
           src={assets.search_icon}
           alt="searchIcon"
           className="w-5 cursor-pointer"
+          loading="lazy"
         />
         <div className="group relative">
           <img
@@ -68,12 +69,18 @@ const Navbar = () => {
             src={assets.profile_icon}
             alt="profile icon"
             className="w-5 cursor-pointer"
+            loading="lazy"
           />
 
           {token && (
             <div className="group-hover:block hidden absolute dropdown-menu right-0 pt-4 z-20">
               <div className="flex flex-col gap-2 w-36 py-3 bg-slate-100 text-gray-800 rounded">
-                <p onClick={()=> navigate("/my-profile")} className="cursor-pointer hover:text-blue-800 px-5">My Profile</p>
+                <p
+                  onClick={() => navigate("/my-profile")}
+                  className="cursor-pointer hover:text-blue-800 px-5"
+                >
+                  My Profile
+                </p>
                 <p
                   onClick={() => navigate("/orders")}
                   className="cursor-pointer hover:text-blue-800 px-5"
@@ -91,7 +98,12 @@ const Navbar = () => {
           )}
         </div>
         <Link to="/cart" className="relative">
-          <img src={assets.cart_icon} className="w-5 min-w-5" alt="cart icon" />
+          <img
+            src={assets.cart_icon}
+            className="w-5 min-w-5"
+            alt="cart icon"
+            loading="lazy"
+          />
           <p className="absolute right-[-5px] bottom-[-5px] w-4 text-center leading-4 bg-blue-800 text-white rounded-full text-[8px] aspect-square">
             {getCartCount()}
           </p>
@@ -101,6 +113,7 @@ const Navbar = () => {
           src={assets.menu_icon}
           alt="menu icon"
           className="cursor-pointer sm:hidden w-5"
+          loading="lazy"
         />
       </div>
 
@@ -114,7 +127,12 @@ const Navbar = () => {
             onClick={() => setVisible(false)}
             className="flex items-center gap-4 p-3 cursor-pointer"
           >
-            <img src={assets.dropdown_icon} alt="" className="h-4 rotate-180" />
+            <img
+              src={assets.dropdown_icon}
+              alt="dropdowm icon"
+              className="h-4 rotate-180"
+              loading="lazy"
+            />
             <p>Back</p>
           </div>
 

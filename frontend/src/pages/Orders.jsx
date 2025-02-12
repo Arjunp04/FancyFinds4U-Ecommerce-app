@@ -63,6 +63,7 @@ const Orders = () => {
             src={assets.noorder}
             alt="No Orders"
             className="w-40 sm:w-60 mb-4"
+            loading="lazy"
           />
           <p className="text-gray-700 mb-6">
             Start shopping to place your first order.
@@ -83,7 +84,12 @@ const Orders = () => {
               className="py-4 border-b border-t text-gray-700 flex flex-col md:flex-row md:items-center md:justify-between gap-4"
             >
               <div className="flex items-start gap-6 text-sm">
-                <img src={item.image[0]} alt="" className="w-16 sm:w-20 " />
+                <img
+                  src={item.image[0]}
+                  alt="product"
+                  className="w-16 sm:w-20 "
+                  loading="lazy"
+                />
                 <div>
                   <p className="text-base font-medium">{item.name}</p>
                   <div className="flex items-center gap-3 mt-2 text-base text-gray-600">

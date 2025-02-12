@@ -67,7 +67,7 @@ const Login = ({ token, setToken }) => {
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 px-4">
       {/* Logo Section */}
       <div className="w-60 mb-8">
-        <img src={assets.logo} alt="fancyfinds4u logo" />
+        <img src={assets.logo} alt="fancyfinds4u logo" loading="lazy"/>
       </div>
 
       {/* Login Card */}

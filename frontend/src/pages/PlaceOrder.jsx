@@ -326,7 +326,12 @@ const PlaceOrder = () => {
                     method === "stripe" ? "bg-green-500" : ""
                   }`}
                 ></p>
-                <img src={assets.stripe_logo} alt="" className="mx-4 h-5" />
+                <img
+                  src={assets.stripe_logo}
+                  alt="stripe"
+                  className="mx-4 h-5"
+                  loading="lazy"
+                />
               </div>
               <div
                 onClick={() => setMethod("razorpay")}
@@ -339,7 +344,12 @@ const PlaceOrder = () => {
                     method === "razorpay" ? "bg-green-500" : ""
                   }`}
                 ></p>
-                <img src={assets.razorpay_logo} alt="" className="mx-4 h-5" />
+                <img
+                  src={assets.razorpay_logo}
+                  alt="razorpay"
+                  className="mx-4 h-5"
+                  loading="lazy"
+                />
               </div>
               <div
                 onClick={() => setMethod("cod")}

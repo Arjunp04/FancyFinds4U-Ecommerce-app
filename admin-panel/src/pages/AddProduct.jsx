@@ -96,6 +96,7 @@ const AddProduct = ({ token }) => {
                     src={URL.createObjectURL(img)}
                     alt="preview"
                     className="w-20 h-20 object-cover rounded-md"
+                    loading="lazy"
                   />
                 ))}
               </div>
