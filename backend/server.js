@@ -26,7 +26,7 @@ const corOptions = {
     "http://localhost:5173",
     "http://localhost:5174",
     "https://fancyfinds4u.vercel.app",
-    "https://fancyfinds4u-admin-panel.vercel.app/",
+    "https://fancyfinds4u-admin-panel.vercel.app",
   ],
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true,
