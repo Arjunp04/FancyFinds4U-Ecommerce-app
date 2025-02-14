@@ -1,7 +1,7 @@
 #  FancyFinds4U – A Fullstack MERN eCommerce Clothing Store! 🛍️
 
 ## 🌍 Deployment URLs  
-🔗 **Frontend:** [FancyFinds4U Store](https://fancyfinds4u.vercel.app/)
+🔗 **Frontend:** [FancyFinds4U Store](https://fancyfinds4u.vercel.app/)  
 🔗 **Admin Panel:** [FancyFinds4U Admin](https://fancyfinds4u-admin-panel.vercel.app/)  
 
 ## 🔑 Admin Panel Login Credentials  
