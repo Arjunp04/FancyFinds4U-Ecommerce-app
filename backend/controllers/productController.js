@@ -59,8 +59,12 @@ const addProduct = async (req, res) => {
 // ------------- list all products function  -------------- //
 const listProducts = async (req, res) => {
   try {
-    const products = await productModel.find({});
-    res.json({ success: true, message: "Fetched all products", products });
+    const products = await productModel.aggregate([{ $sample: { size: 100 } }]); // Adjust size as needed
+    res.json({
+      success: true,
+      message: "Fetched all products randomly",
+      products,
+    });
   } catch (error) {
     console.log("Error fetching products:", error);
     res.json({
@@ -69,6 +73,7 @@ const listProducts = async (req, res) => {
     });
   }
 };
+
 
 // --------- single product product function  ------------ //
 const singleProduct = async (req, res) => {
