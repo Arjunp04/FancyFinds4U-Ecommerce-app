@@ -92,10 +92,15 @@ Your admin panel should be running at `http://localhost:5174`.
 
 ## Features
 ✅ User Authentication (Signup/Login)
+
 ✅ Product Search & Filtering
+
 ✅ Shopping Cart & Checkout
+
 ✅ Payment Integration (Stripe & Razorpay)
+
 ✅ Order History & Tracking
+
 ✅ Admin Panel for Product & Order Management
 
 ## Contributing
