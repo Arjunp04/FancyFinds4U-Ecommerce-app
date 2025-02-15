@@ -13,7 +13,7 @@ const BestSellerProducts = () => {
             item.bestseller
         ));
    
-        setBestSeller(bestProduct.slice(0, 5));
+        setBestSeller(bestProduct.slice(0, 15));
     }, [products])
 
   return (
