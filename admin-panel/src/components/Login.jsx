@@ -6,10 +6,13 @@ import { toast } from "react-toastify";
 import { Zoom } from "react-toastify";
 import { assets } from "../assets/admin_assets/assets";
 
+const adminEmail = import.meta.env.VITE_ADMIN_EMAIL;
+const adminPassword = import.meta.env.VITE_ADMIN_PASSWORD;
+
 const Login = ({ token, setToken }) => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState(adminEmail);
+  const [password, setPassword] = useState(adminPassword);
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
@@ -67,7 +70,7 @@ const Login = ({ token, setToken }) => {
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 px-4">
       {/* Logo Section */}
       <div className="w-60 mb-8">
-        <img src={assets.logo} alt="fancyfinds4u logo" loading="lazy"/>
+        <img src={assets.logo} alt="fancyfinds4u logo" loading="lazy" />
       </div>
 
       {/* Login Card */}
@@ -81,12 +84,10 @@ const Login = ({ token, setToken }) => {
           <div className="mb-4">
             <label className="text-sm font-medium text-gray-700">Email</label>
             <input
-              className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-1 focus:ring-blue-500 focus:border-blue-500 transition-all focus:outline-none"
-              type="email"
-              placeholder="youremail@gmail.com"
-              required
+              className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-md shadow-sm bg-gray-100 cursor-not-allowed"
+              type="youremail@gmail.com"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              readOnly
             />
           </div>
 
@@ -96,12 +97,10 @@ const Login = ({ token, setToken }) => {
               Password
             </label>
             <input
-              className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-1 focus:ring-blue-500 focus:border-blue-500 transition-all focus:outline-none"
+              className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-md shadow-sm"
               type="password"
-              placeholder="Your password"
-              required
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              readOnly
             />
           </div>
 
