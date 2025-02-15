@@ -85,8 +85,9 @@ const Login = ({ token, setToken }) => {
             <label className="text-sm font-medium text-gray-700">Email</label>
             <input
               className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-md shadow-sm bg-gray-100 cursor-not-allowed"
-              type="youremail@gmail.com"
-              value={email}
+              type="email"
+              defaultValue="admin@ff4u.com"
+              placeholder="admin@example.com"
               readOnly
             />
           </div>
@@ -97,9 +98,10 @@ const Login = ({ token, setToken }) => {
               Password
             </label>
             <input
-              className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-md shadow-sm"
+              className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-md shadow-sm bg-gray-100 cursor-not-allowed"
               type="password"
-              value={password}
+              defaultValue="password"
+              placeholder="password"
               readOnly
             />
           </div>
