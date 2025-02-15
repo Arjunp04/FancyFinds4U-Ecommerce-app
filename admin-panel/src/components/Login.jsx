@@ -7,7 +7,7 @@ import { Zoom } from "react-toastify";
 import { assets } from "../assets/admin_assets/assets";
 
 const adminEmail = import.meta.env.VITE_ADMIN_EMAIL;
-const adminPassword = import.meta.env.VITE_ADMIN_PASSWORD;
+const adminPassword = import.meta.env.VITE_ADMIN_PAASSWORD;
 
 const Login = ({ token, setToken }) => {
   const navigate = useNavigate();
