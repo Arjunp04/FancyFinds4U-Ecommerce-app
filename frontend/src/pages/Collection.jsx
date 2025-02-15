@@ -11,7 +11,7 @@ const Collection = () => {
   const [category, setCategory] = useState([]);
   const [subCategory, setSubCategory] = useState([]);
   const [sortType, setSortType] = useState("relevant");
-  const [priceRange, setPriceRange] = useState({ min: 0, max: 50000 });
+  const [priceRange, setPriceRange] = useState({ min: 0, max: 10000 });
 
   const toggleCategory = (e) => {
     setCategory((prev) =>
@@ -146,8 +146,18 @@ const Collection = () => {
                 type="number"
                 className="w-20 p-1 border border-gray-300 rounded"
                 value={priceRange.min}
+                onFocus={(e) => (e.target.value = "")}
                 onChange={(e) =>
-                  setPriceRange({ ...priceRange, min: Number(e.target.value) })
+                  setPriceRange({
+                    ...priceRange,
+                    min: e.target.value ? Number(e.target.value) : 0,
+                  })
+                }
+                onBlur={(e) =>
+                  setPriceRange({
+                    ...priceRange,
+                    min: e.target.value ? Number(e.target.value) : 0,
+                  })
                 }
                 min={0}
               />
@@ -156,8 +166,18 @@ const Collection = () => {
                 type="number"
                 className="w-20 p-1 border border-gray-300 rounded"
                 value={priceRange.max}
+                onFocus={(e) => (e.target.value = "")}
                 onChange={(e) =>
-                  setPriceRange({ ...priceRange, max: Number(e.target.value) })
+                  setPriceRange({
+                    ...priceRange,
+                    max: e.target.value ? Number(e.target.value) : 10000,
+                  })
+                }
+                onBlur={(e) =>
+                  setPriceRange({
+                    ...priceRange,
+                    max: e.target.value ? Number(e.target.value) : 10000,
+                  })
                 }
                 max={10000}
               />
